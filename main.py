@@ -2,16 +2,36 @@ import tkinter as tk
 from tkinter import messagebox
 
 
+class OnePlayer(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.geometry("300x300")
+        self.title("1 player")
+
+        setting_message = tk.Label(self, text="No AI yet, try 2 player", font=("Helvetica", 14))
+        button_quit_setting = tk.Button(self, text="OK", command=self.destroy)
+
+        setting_message.pack(pady=10)
+        button_quit_setting.pack(pady=10)
+
+
 class TwoPlayer(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("2 player")
-        self.geometry("300x300")
+        self.geometry("300x350")
         self.create_board()
+        self.current_player_label = tk.Label(self, text="Current Player: X", font=("Helvetica", 14))
+        self.current_player_label.grid(row=3, column=0, columnspan=3)
+        self.undo_button = tk.Button(self, text="Undo Move", command=self.undo_move, state=tk.DISABLED)
+        self.undo_button.grid(row=4, column=0, columnspan=3)
+        self.quit_button = tk.Button(self, text="Quit", command=self.quit_game)
+        self.quit_button.grid(row=5, column=0, columnspan=3)
 
     def create_board(self):
         self.buttons = [[None, None, None], [None, None, None], [None, None, None]]
         self.current_player = "X"
+        self.last_move = None
 
         for i in range(3):
             for j in range(3):
@@ -33,6 +53,19 @@ class TwoPlayer(tk.Tk):
                 self.reset_board()
             else:
                 self.current_player = "O" if self.current_player == "X" else "X"
+                self.current_player_label.config(text=f"Current Player: {self.current_player}")
+                self.undo_button.config(state=tk.NORMAL)
+                self.last_move = (row, col)
+
+    def undo_move(self):
+        if self.last_move:
+            row, col = self.last_move
+            button = self.buttons[row][col]
+            button["text"] = ""
+            self.current_player = "O" if self.current_player == "X" else "X"
+            self.current_player_label.config(text=f"Current Player: {self.current_player}")
+            self.undo_button.config(state=tk.DISABLED)
+            self.last_move = None
 
     def check_winner(self, row, col):
         player = self.current_player
@@ -53,6 +86,12 @@ class TwoPlayer(tk.Tk):
             for j in range(3):
                 self.buttons[i][j]["text"] = ""
         self.current_player = "X"
+        self.current_player_label.config(text="Current Player: X")
+        self.undo_button.config(state=tk.DISABLED)
+        self.last_move = None
+
+    def quit_game(self):
+        self.destroy()
 
 
 class Menu(tk.Tk):
@@ -74,19 +113,22 @@ class Menu(tk.Tk):
         button_quit.pack(pady=10)
 
     def start_1p(self):
-        self.destroy()
+        game = OnePlayer()
+        game.mainloop()
 
     def start_2p(self):
-        app = TwoPlayer()
-        app.mainloop()
+        game = TwoPlayer()
+        game.mainloop()
 
     def open_settings(self):
         settings_window = tk.Toplevel(self)
         settings_window.geometry("300x300")
         settings_window.title("Settings")
-        button_setting = tk.Button(settings_window, text="Nothing to set yet", command=settings_window.destroy)
+
+        setting_message = tk.Label(settings_window, text="Nothing to set yet", font=("Helvetica", 14))
         button_quit_setting = tk.Button(settings_window, text="OK", command=settings_window.destroy)
-        button_setting.pack(pady=10)
+
+        setting_message.pack(pady=10)
         button_quit_setting.pack(pady=10)
 
     def quit_game(self):
