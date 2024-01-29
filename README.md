@@ -1,3 +1,3 @@
 # TicTacToe
 
-tictactoe.py made with tkinter
+tictactoe.py is made with tkinter
