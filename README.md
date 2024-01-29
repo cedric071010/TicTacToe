@@ -1,3 +1,3 @@
 # TicTacToe
 
-a normal tic tac toe made with tkinter
+tictactoe.py made with tkinter
