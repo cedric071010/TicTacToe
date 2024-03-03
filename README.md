@@ -2,21 +2,31 @@
 
 Objective:
 
-To create the best free, open sourced and no advertisement tic tac toe app for ios
+To create the best free, open sourced and no advertisement tic tac toe app
 Let everyone learn how to be the best at this game easily
 teach you next best move and can tell you how good your move is
+have fun
 
 Idea:
 
     Main menu:
         Player to player
             Local
-            LAN(not in competition)
+            LAN
             internet
         Player to computer:
             Easy: random
             Normal: simulate human
             Hard: play perfect
+        Play until win mode(only last 3 piece stay on table)
+            Player to player
+                Local
+                LAN(not in competition)
+                internet
+            Player to computer:
+                Easy: random
+                Normal: simulate human
+                Hard: play best
         History:
             Easy computer game = 0
             Tie easy = 0
@@ -56,6 +66,7 @@ Idea:
             50
             100
             Win hard comp
+            ...
         Setting:
             Interface:
                 clear_mode = false
