@@ -109,5 +109,6 @@ Idea:
                 Take_back_button = true
         Instruction:
             “Connect 3 to win”
-            Credit: me
+            Credit
+                
         Quit
