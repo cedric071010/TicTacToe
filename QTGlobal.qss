@@ -7,13 +7,15 @@ QPushButton {
     min-width: 10em;
     max-width: 10em;
 }
-
+QPushButton#optionButton {
+    font-size: 20px;
+}
 QPushButton#gameButton {
     font-family: "Ayuthaya";
-    min-width: 10em;
-    max-width: 10em;
-    min-height: 10em;
-    max-height: 10em;
-    font-size: 15px;
+    min-width: 5em;
+    max-width: 5em;
+    min-height: 5em;
+    max-height: 5em;
+    font-size: 30px;
 }
 

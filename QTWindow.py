@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import QWidget, QApplication, QLabel, QMainWindow, QPushBut
     QGridLayout
 import sys
 from QTInterface import ApplicationInterface
-from PyQt6.QtCore import QObject, QThread, pyqtSignal
+from PyQt6.QtCore import QTimer
 from random import randint
 from time import sleep
 
@@ -26,40 +26,33 @@ class MainWindow(QMainWindow, ApplicationInterface):
         self.button8 = QPushButton("O")
         self.button9 = QPushButton("X")
 
-        self.button1.setObjectName("gameButton")
-        self.button2.setObjectName("gameButton")
-        self.button3.setObjectName("gameButton")
-        self.button4.setObjectName("gameButton")
-        self.button5.setObjectName("gameButton")
-        self.button6.setObjectName("gameButton")
-        self.button7.setObjectName("gameButton")
-        self.button8.setObjectName("gameButton")
-        self.button9.setObjectName("gameButton")
+        for button in [self.singleplayerButton, self.multiplayerButton, self.settingsButton, self.quitButton]:
+            button.setObjectName("optionButton")
+        for button in [self.button1, self.button2, self.button3, self.button4, self.button5, self.button6,
+                       self.button7, self.button8, self.button9]:
+            button.setObjectName("gameButton")
 
         self.setWindowTitle("Tic Tac Toe Remastered")
         self.resize(1750, 1000)
         self.centralWidget = QWidget()
         self.setCentralWidget(self.centralWidget)
 
-        self.topLayout = QHBoxLayout()
-        self.anotherLayout = QGridLayout()
-        self.mainLayout = QVBoxLayout()
+        self.topLevelLayout = QHBoxLayout()
+        self.buttonLayout = QGridLayout()
+        self.optionLayout = QVBoxLayout()
 
-        self.anotherLayout.addWidget(self.button1, 0, 0)
-        self.anotherLayout.addWidget(self.button2, 0, 1)
-        self.anotherLayout.addWidget(self.button3, 0, 2)
-        self.anotherLayout.addWidget(self.button4, 1, 0)
-        self.anotherLayout.addWidget(self.button5, 1, 1)
-        self.anotherLayout.addWidget(self.button6, 1, 2)
-        self.anotherLayout.addWidget(self.button7, 2, 0)
-        self.anotherLayout.addWidget(self.button8, 2, 1)
-        self.anotherLayout.addWidget(self.button9, 2, 2)
+        self.buttonLayout.addWidget(self.button1, 0, 0)
+        self.buttonLayout.addWidget(self.button2, 0, 1)
+        self.buttonLayout.addWidget(self.button3, 0, 2)
+        self.buttonLayout.addWidget(self.button4, 1, 0)
+        self.buttonLayout.addWidget(self.button5, 1, 1)
+        self.buttonLayout.addWidget(self.button6, 1, 2)
+        self.buttonLayout.addWidget(self.button7, 2, 0)
+        self.buttonLayout.addWidget(self.button8, 2, 1)
+        self.buttonLayout.addWidget(self.button9, 2, 2)
 
-        self.topLayout.addLayout(self.mainLayout)
-        self.topLayout.addLayout(self.anotherLayout)
-
-        # Todo: multithreading
-        self.idle = True
+        self.topLevelLayout.addLayout(self.optionLayout)
+        self.topLevelLayout.addLayout(self.buttonLayout)
 
         self.createGUI()
 
@@ -73,41 +66,29 @@ class MainWindow(QMainWindow, ApplicationInterface):
         self.quitButton.setText("Quit")
         self.quitButton.clicked.connect(self.quitAction)
 
-        self.mainLayout.addWidget(self.singleplayerButton)
-        self.mainLayout.addWidget(self.multiplayerButton)
-        self.mainLayout.addWidget(self.settingsButton)
-        self.mainLayout.addWidget(self.quitButton)
+        self.optionLayout.addWidget(self.singleplayerButton)
+        self.optionLayout.addWidget(self.multiplayerButton)
+        self.optionLayout.addWidget(self.settingsButton)
+        self.optionLayout.addWidget(self.quitButton)
 
-        self.centralWidget.setLayout(self.topLayout)
+        self.centralWidget.setLayout(self.topLevelLayout)
 
     def singleplayerAction(self):
-        self.idle = False
         pass
 
     def multiplayerAction(self):
-        self.idle = False
         pass
 
     def settingsAction(self):
-        self.idle = False
         pass
 
     def quitAction(self):
-        self.idle = False
         pass
 
-    def idleState(self):
-        while self.idle:
-            self.button1.setText(["X", "O"][randint(0, 1)])
-            self.button2.setText(["X", "O"][randint(0, 1)])
-            self.button3.setText(["X", "O"][randint(0, 1)])
-            self.button4.setText(["X", "O"][randint(0, 1)])
-            self.button5.setText(["X", "O"][randint(0, 1)])
-            self.button6.setText(["X", "O"][randint(0, 1)])
-            self.button7.setText(["X", "O"][randint(0, 1)])
-            self.button8.setText(["X", "O"][randint(0, 1)])
-            self.button9.setText(["X", "O"][randint(0, 1)])
-            sleep(1)
+    def dynamicUpdate(self):
+        for button in [self.button1, self.button2, self.button3, self.button4, self.button5, self.button6,
+                       self.button7, self.button8, self.button9]:
+            button.setText(["X", "O"][randint(0, 1)])
 
 
 def main():
@@ -117,6 +98,10 @@ def main():
         stylesheet = str(f.read())
     window.setStyleSheet(stylesheet)
     window.show()
+    timer = QTimer()
+    timer.timeout.connect(window.dynamicUpdate)
+    timer.start(1000)
+
     sys.exit(app.exec())
 
 
