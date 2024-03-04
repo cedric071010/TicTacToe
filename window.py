@@ -1,8 +1,5 @@
-from PyQt6.QtWidgets import QWidget, QApplication, QMainWindow, QPushButton, QHBoxLayout, QVBoxLayout, \
-    QGridLayout
-import sys
+from PyQt6.QtWidgets import QWidget, QMainWindow, QPushButton, QHBoxLayout, QVBoxLayout, QGridLayout
 from interface import ApplicationInterface
-from PyQt6.QtCore import QTimer
 from random import randint
 from subwindows import *
 
