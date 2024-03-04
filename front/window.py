@@ -9,6 +9,7 @@ class MainWindow(QMainWindow, ApplicationInterface):
     def __init__(self):
         super().__init__()
 
+        # initialising elements
         self.singleplayerButton = QPushButton()
         self.multiplayerButton = QPushButton()
         self.settingsButton = QPushButton()
@@ -23,17 +24,21 @@ class MainWindow(QMainWindow, ApplicationInterface):
         self.button8 = QPushButton("O")
         self.button9 = QPushButton("X")
 
+        # give elements ids for css
         for button in [self.singleplayerButton, self.multiplayerButton, self.settingsButton, self.quitButton]:
             button.setObjectName("optionButton")
         for button in [self.button1, self.button2, self.button3, self.button4, self.button5, self.button6,
                        self.button7, self.button8, self.button9]:
             button.setObjectName("gameButton")
 
+        # window level configs
         self.setWindowTitle("Tic Tac Toe Remastered")
         self.resize(1750, 1000)
         self.centralWidget = QWidget()
         self.setCentralWidget(self.centralWidget)
 
+        # ----------topLevelLayout---------- level 1
+        # --{optionLayout}--{buttonLayout}-- level 2
         self.topLevelLayout = QHBoxLayout()
         self.buttonLayout = QGridLayout()
         self.optionLayout = QVBoxLayout()
@@ -54,6 +59,7 @@ class MainWindow(QMainWindow, ApplicationInterface):
         self.createGUI()
 
     def createGUI(self):
+        # link buttons with their functions
         self.singleplayerButton.setText("Singleplayer")
         self.singleplayerButton.clicked.connect(self.singleplayerAction)
         self.multiplayerButton.setText("Multiplayer")
@@ -63,6 +69,7 @@ class MainWindow(QMainWindow, ApplicationInterface):
         self.quitButton.setText("Quit")
         self.quitButton.clicked.connect(self.quitAction)
 
+        # add widgets to layout
         self.optionLayout.addWidget(self.singleplayerButton)
         self.optionLayout.addWidget(self.multiplayerButton)
         self.optionLayout.addWidget(self.settingsButton)
