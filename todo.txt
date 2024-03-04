@@ -1,2 +1,12 @@
+right now
+
+setting/Interface/Language
+setting/Interface/Dark mode
+setting/Interface/Colour
+setting/Interface/Language
+setting/Interface/clear_mode
+
+not yet
+
 1. online mode?
 2. dynamic translations?
