@@ -4,7 +4,6 @@ import sys
 from QTInterface import ApplicationInterface
 from PyQt6.QtCore import QTimer
 from random import randint
-from time import sleep
 
 
 class MainWindow(QMainWindow, ApplicationInterface):
