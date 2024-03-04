@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QWidget, QApplication, QMainWindow, QPushButton, QHBoxLayout, QVBoxLayout, \
     QGridLayout
 import sys
-from interface import ApplicationInterface
+from ..interface import ApplicationInterface
 
 
 class SingleplayerWindow(QMainWindow, ApplicationInterface):
