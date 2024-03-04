@@ -1,5 +1,9 @@
 right now
 
+create a start file
+sort files to front folder, back folder
+self install libary when 1st runed
+
 setting/Interface/Language
 setting/Interface/Dark mode
 setting/Interface/Colour
