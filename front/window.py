@@ -24,7 +24,7 @@ class MainWindow(QMainWindow, ApplicationInterface):
         self.button8 = QPushButton("O")
         self.button9 = QPushButton("X")
 
-        # give elements ids for css
+        # give elements id for qss
         for button in [self.singleplayerButton, self.multiplayerButton, self.settingsButton, self.quitButton]:
             button.setObjectName("optionButton")
         for button in [self.button1, self.button2, self.button3, self.button4, self.button5, self.button6,
