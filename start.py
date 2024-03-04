@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtCore import QTimer
-from window import MainWindow
+from front.window import MainWindow
 import sys
 
 
