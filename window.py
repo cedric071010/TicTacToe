@@ -100,7 +100,7 @@ def main():
     window.show()
     timer = QTimer()
     timer.timeout.connect(window.dynamicUpdate)
-    timer.start(1000)
+    timer.start(500)
 
     sys.exit(app.exec())
 
