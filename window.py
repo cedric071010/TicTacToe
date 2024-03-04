@@ -85,25 +85,8 @@ class MainWindow(QMainWindow, ApplicationInterface):
     def quitAction(self):
         pass
 
+    # dynamically changing menu
     def dynamicUpdate(self):
         for button in [self.button1, self.button2, self.button3, self.button4, self.button5, self.button6,
                        self.button7, self.button8, self.button9]:
             button.setText(["X", "O"][randint(0, 1)])
-
-
-def main():
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    with open("global.qss", "r") as f:
-        stylesheet = str(f.read())
-    window.setStyleSheet(stylesheet)
-    window.show()
-    timer = QTimer()
-    timer.timeout.connect(window.dynamicUpdate)
-    timer.start(500)
-
-    sys.exit(app.exec())
-
-
-if __name__ == '__main__':
-    main()
