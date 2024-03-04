@@ -1,9 +1,10 @@
-from PyQt6.QtWidgets import QWidget, QApplication, QLabel, QMainWindow, QPushButton, QHBoxLayout, QVBoxLayout, \
+from PyQt6.QtWidgets import QWidget, QApplication, QMainWindow, QPushButton, QHBoxLayout, QVBoxLayout, \
     QGridLayout
 import sys
-from QTInterface import ApplicationInterface
+from interface import ApplicationInterface
 from PyQt6.QtCore import QTimer
 from random import randint
+from subwindows import *
 
 
 class MainWindow(QMainWindow, ApplicationInterface):
@@ -93,7 +94,7 @@ class MainWindow(QMainWindow, ApplicationInterface):
 def main():
     app = QApplication(sys.argv)
     window = MainWindow()
-    with open("QTGlobal.qss", "r") as f:
+    with open("global.qss", "r") as f:
         stylesheet = str(f.read())
     window.setStyleSheet(stylesheet)
     window.show()
