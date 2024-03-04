@@ -1,0 +1,19 @@
+QWidget {
+    font-family: "Chalkboard";
+}
+
+QPushButton {
+    font-family: "Ayuthaya";
+    min-width: 10em;
+    max-width: 10em;
+}
+
+QPushButton#gameButton {
+    font-family: "Ayuthaya";
+    min-width: 10em;
+    max-width: 10em;
+    min-height: 10em;
+    max-height: 10em;
+    font-size: 15px;
+}
+
