@@ -7,7 +7,7 @@ import sys
 def main():
     app = QApplication(sys.argv)
     window = MainWindow()
-    with open("global.qss", "r") as f:
+    with open("front/global.qss", "r") as f:
         stylesheet = str(f.read())
     window.setStyleSheet(stylesheet)
     window.show()

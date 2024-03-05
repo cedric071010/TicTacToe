@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QWidget, QMainWindow, QPushButton, QHBoxLayout, QVBoxLayout, QGridLayout
-from interface import ApplicationInterface
+from front.interface import ApplicationInterface
+from front.subwindows import *
 from random import randint
-from subwindows import *
 
 
 class MainWindow(QMainWindow, ApplicationInterface):
