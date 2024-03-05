@@ -1,1 +1,1 @@
-import pytorch
+import torch
