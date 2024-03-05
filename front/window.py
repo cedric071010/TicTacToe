@@ -12,6 +12,9 @@ class MainWindow(QMainWindow, ApplicationInterface):
         # initialising elements
         self.singleplayerButton = QPushButton()
         self.multiplayerButton = QPushButton()
+        self.playUntilWinButton = QPushButton()
+        self.historyButton = QPushButton()
+        self.achievementButton = QPushButton()
         self.settingsButton = QPushButton()
         self.quitButton = QPushButton()
         self.button1 = QPushButton("X")
@@ -25,7 +28,8 @@ class MainWindow(QMainWindow, ApplicationInterface):
         self.button9 = QPushButton("X")
 
         # give elements id for qss
-        for button in [self.singleplayerButton, self.multiplayerButton, self.settingsButton, self.quitButton]:
+        for button in [self.singleplayerButton, self.multiplayerButton, self.playUntilWinButton, self.historyButton,
+                       self.achievementButton, self.settingsButton, self.quitButton]:
             button.setObjectName("optionButton")
         for button in [self.button1, self.button2, self.button3, self.button4, self.button5, self.button6,
                        self.button7, self.button8, self.button9]:
@@ -60,20 +64,20 @@ class MainWindow(QMainWindow, ApplicationInterface):
 
     def createGUI(self):
         # link buttons with their functions
-        self.singleplayerButton.setText("Singleplayer")
-        self.singleplayerButton.clicked.connect(self.singleplayerAction)
-        self.multiplayerButton.setText("Multiplayer")
-        self.multiplayerButton.clicked.connect(self.multiplayerAction)
-        self.settingsButton.setText("Settings")
-        self.settingsButton.clicked.connect(self.settingsAction)
-        self.quitButton.setText("Quit")
-        self.quitButton.clicked.connect(self.quitAction)
+        for button, text, action in [[self.singleplayerButton, "Singleplayer", self.singleplayerAction],
+                                     [self.multiplayerButton, "Multiplayer", self.multiplayerAction],
+                                     [self.playUntilWinButton, "Play Until Win", self.playUntilWinAction],
+                                     [self.historyButton, "History", self.historyAction],
+                                     [self.achievementButton, "Achievements", self.achievementAction],
+                                     [self.settingsButton, "Settings", self.settingsAction],
+                                     [self.quitButton, "Quit", self.quitAction]]:
+            button.setText(text)
+            button.clicked.connect(action)
 
         # add widgets to layout
-        self.optionLayout.addWidget(self.singleplayerButton)
-        self.optionLayout.addWidget(self.multiplayerButton)
-        self.optionLayout.addWidget(self.settingsButton)
-        self.optionLayout.addWidget(self.quitButton)
+        for widget in [self.singleplayerButton, self.multiplayerButton, self.playUntilWinButton, self.historyButton,
+                       self.achievementButton, self.settingsButton, self.quitButton]:
+            self.optionLayout.addWidget(widget)
 
         self.centralWidget.setLayout(self.topLevelLayout)
 
@@ -81,6 +85,15 @@ class MainWindow(QMainWindow, ApplicationInterface):
         pass
 
     def multiplayerAction(self):
+        pass
+
+    def playUntilWinAction(self):
+        pass
+
+    def historyAction(self):
+        pass
+
+    def achievementAction(self):
         pass
 
     def settingsAction(self):
