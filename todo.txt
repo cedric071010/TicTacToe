@@ -1,5 +1,7 @@
 right now
 
+auto change size
+
 self install libary when 1st runed
 
 setting/Interface/Language
