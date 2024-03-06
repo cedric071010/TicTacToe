@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QWidget, QMainWindow, QPushButton, QHBoxLayout, QVBoxLayout, QGridLayout
 from front.interface import ApplicationInterface
-from front.subwindows import *
 from random import randint
+from front.subwindows import singleplayer, multiplayer, playUntilWin, history, achievements, settings, quit, templateClass
 
 
 class MainWindow(QMainWindow, ApplicationInterface):
@@ -26,6 +26,7 @@ class MainWindow(QMainWindow, ApplicationInterface):
         self.button7 = QPushButton("X")
         self.button8 = QPushButton("O")
         self.button9 = QPushButton("X")
+        self.w = templateClass.TemplateClass()
 
         # give elements id for qss
         for button in [self.singleplayerButton, self.multiplayerButton, self.playUntilWinButton, self.historyButton,
@@ -82,28 +83,46 @@ class MainWindow(QMainWindow, ApplicationInterface):
         self.centralWidget.setLayout(self.topLevelLayout)
 
     def singleplayerAction(self):
-        pass
+        if self.w.onClose:
+            self.w = singleplayer.SingleplayerWindow()
+            self.w.show()
 
     def multiplayerAction(self):
-        pass
+        if self.w.onClose:
+            self.w = multiplayer.MultiplayerWindow()
+            self.w.show()
 
     def playUntilWinAction(self):
-        pass
+        if self.w.onClose:
+            self.w = playUntilWin.PlayUntilWinWindow()
+            self.w.show()
 
     def historyAction(self):
-        pass
+        if self.w.onClose:
+            self.w = history.HistoryWindow()
+            self.w.show()
 
     def achievementAction(self):
-        pass
+        if self.w.onClose:
+            self.w = achievements.AchievementsWindow()
+            self.w.show()
 
     def settingsAction(self):
-        pass
+        if self.w.onClose:
+            self.w = settings.SettingsWindow()
+            self.w.show()
 
     def quitAction(self):
-        pass
+        if self.w.onClose:
+            self.w = quit.QuitWindow()
+            self.w.show()
 
     # dynamically changing menu
     def dynamicUpdate(self):
         for button in [self.button1, self.button2, self.button3, self.button4, self.button5, self.button6,
                        self.button7, self.button8, self.button9]:
             button.setText(["X", "O"][randint(0, 1)])
+
+
+if __name__ == "__main__":
+    pass

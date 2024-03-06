@@ -2,7 +2,7 @@ right now
 
 auto change size
 
-self install libary when 1st runed
+self install library when 1st ran
 
 setting/Interface/Language
 setting/Interface/Dark mode
@@ -14,3 +14,4 @@ not yet
 
 1. online mode?
 2. dynamic translations?
+3. close main window after opening subwindow? TECHNICAL DIFFICULTIES: QWidget doesn't show or QMainWindow inheritance shows blank

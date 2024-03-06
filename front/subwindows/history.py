@@ -2,9 +2,9 @@ from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout
 from front.interface import ApplicationInterface
 
 
-class SingleplayerWindow(QWidget, ApplicationInterface):
+class HistoryWindow(QWidget, ApplicationInterface):
     def __init__(self):
-        super(SingleplayerWindow, self).__init__()
+        super(HistoryWindow, self).__init__()
 
         self.onClose = False
 
@@ -18,7 +18,7 @@ class SingleplayerWindow(QWidget, ApplicationInterface):
         self.setLayout(self.layout)
 
         self.resize(1750, 1000)
-        self.setWindowTitle("Tic Tac Toe Remastered - Singleplayer")
+        self.setWindowTitle("Tic Tac Toe Remastered - History")
 
         with open("front/global.qss", "r") as f:
             stylesheet = str(f.read())
