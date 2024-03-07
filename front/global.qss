@@ -27,5 +27,13 @@ QLabel#stateLabel {
     padding: 0;
     margin: 0;
 }
+QSlider#resolutionSlider {
+    min-width: 15em;
+    max-width: 15em;
+}
+QLineEdit#resolutionLineEdit {
+    min-width: 15em;
+    max-width: 15em;
+}
 
 

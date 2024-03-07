@@ -1,13 +1,19 @@
 from PyQt6.QtWidgets import QWidget, QMainWindow, QPushButton, QHBoxLayout, QVBoxLayout, QGridLayout
+from PyQt6.QtCore import QTimer
 from front.interface import ApplicationInterface
 from random import randint
-from front.subwindows import singleplayer, multiplayer, playUntilWin, history, achievements, settings, quit, templateClass
+from front.subwindows import singleplayer, multiplayer, playUntilWin, history, achievements, settings, quit, \
+    templateClass
 
 
 class MainWindow(QMainWindow, ApplicationInterface):
 
     def __init__(self):
         super().__init__()
+
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.updateSettings)
+        self.timer.start(1000)
 
         # initialising elements
         self.singleplayerButton = QPushButton()
@@ -122,6 +128,10 @@ class MainWindow(QMainWindow, ApplicationInterface):
         for button in [self.button1, self.button2, self.button3, self.button4, self.button5, self.button6,
                        self.button7, self.button8, self.button9]:
             button.setText(["X", "O"][randint(0, 1)])
+
+    def updateSettings(self):
+        if self.w.__class__.__name__ == "TemplateClass" and self.w.onClose:
+            pass
 
 
 if __name__ == "__main__":
