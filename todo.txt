@@ -16,3 +16,4 @@ not yet
 2. dynamic translations?
 3. close main window after opening subwindow? TECHNICAL DIFFICULTIES: QWidget doesn't show or QMainWindow inheritance shows blank
 4. change bulk widget assignment to interface.py
+5. screen resolution settings

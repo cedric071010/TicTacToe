@@ -13,36 +13,42 @@ class SettingsWindow(QWidget, ApplicationInterface):
         with open("front/assets/lang/locales.json", "r") as f:
             self.locales = json.loads(f.read())
 
-        with open("front/assets/settings.json", "r") as f:
+        with open("back/settings.json", "r") as f:
             self.settings = json.loads(f.read())
 
         self.onClose = False
         self.lang = self.settings["lang"]
+        self.fullScreenState = self.settings["fullscreen"]
 
         self.topLevelLayout = QHBoxLayout()
         self.layout = QVBoxLayout()
         self.langComboBox = QComboBox()
-        self.langComboBox.setObjectName("optionButton")
+        self.fullScreenButton = QPushButton()
         self.applyButton = QPushButton()
+
+        self.langComboBox.setObjectName("optionButton")
+        self.fullScreenButton.setObjectName("optionButton")
         self.applyButton.setObjectName("optionButton")
-        self.applyButton.clicked.connect(self.applyAction)
+
+        self.fullScreenButton.setText(f"Fullscreen - {['Off', 'On'][self.fullScreenState]}")
+        self.fullScreenButton.clicked.connect(self.fullScreenAction)
+        if self.fullScreenState:
+            self.showFullScreen()
+
         self.applyButton.setText("Apply")
-        self.stateLabel = QLabel()
-        self.stateLabel.setText("")
-        self.stateLabel.setObjectName("stateLabel")
-        self.stateLabel.height = 0
+        self.applyButton.clicked.connect(self.applyAction)
 
         self.langComboBox.addItems(self.locales.keys())
         self.langComboBox.setCurrentText([i[0] for i in self.locales.items() if i[1] == self.lang][0])
 
         self.layout.addWidget(self.langComboBox)
+        self.layout.addWidget(self.fullScreenButton)
         self.layout.addWidget(self.applyButton)
-        self.layout.addWidget(self.stateLabel)
         # layout bug
         self.topLevelLayout.addLayout(self.layout)
         self.setLayout(self.topLevelLayout)
 
-        self.resize(1750, 1000)
+        self.resize(1440, 900)
         self.setWindowTitle("Tic Tac Toe Remastered - Settings")
 
         with open("front/global.qss", "r") as f:
@@ -53,13 +59,21 @@ class SettingsWindow(QWidget, ApplicationInterface):
         self.onClose = True
         self.close()
 
+    def fullScreenAction(self):
+        self.fullScreenState = not self.fullScreenState
+        if self.fullScreenState:
+            self.showFullScreen()
+            self.fullScreenButton.setText("Fullscreen - On")
+        else:
+            self.showNormal()
+            self.fullScreenButton.setText("Fullscreen - Off")
+
     def applyAction(self):
         self.lang = self.locales[self.langComboBox.currentText()]
         self.settings["lang"] = self.lang
-        with open("front/assets/settings.json", "w") as f:
+        self.settings["fullscreen"] = int(self.fullScreenState)
+        with open("back/settings.json", "w") as f:
             f.write(json.dumps(self.settings, indent=2))
-        self.stateLabel.setText("Successful")
-        # other thread
 
 
 if __name__ == "__main__":
