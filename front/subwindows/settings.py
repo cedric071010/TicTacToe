@@ -19,6 +19,8 @@ class SettingsWindow(QWidget, ApplicationInterface):
         self.lang = self.settings["lang"]
         self.fullScreenState = self.settings["fullscreen"]
 
+        self.lineEditOnFocus = False
+
         self.topLevelLayout = QHBoxLayout()
         self.layout = QVBoxLayout()
         self.langComboBox = QComboBox()
@@ -44,8 +46,12 @@ class SettingsWindow(QWidget, ApplicationInterface):
 
         self.resolutionXLineEdit.setValidator(QIntValidator())
         self.resolutionXLineEdit.setMaxLength(4)
+        self.resolutionXLineEdit.setReadOnly(True)
+        self.resolutionXLineEdit.returnPressed.connect(self.resolutionLineEditOnPress)
         self.resolutionYLineEdit.setValidator(QIntValidator())
         self.resolutionYLineEdit.setMaxLength(4)
+        self.resolutionYLineEdit.setReadOnly(True)
+        self.resolutionYLineEdit.returnPressed.connect(self.resolutionLineEditOnPress)
         # incomplete, needs save and link slider
 
         self.langComboBox.setObjectName("optionButton")
@@ -83,6 +89,11 @@ class SettingsWindow(QWidget, ApplicationInterface):
 
         stylesheet = ApplicationInterface.readFile("front/global.qss", isJSON=False)
         self.setStyleSheet(stylesheet)
+
+    def resolutionLineEditOnPress(self):
+        self.lineEditOnFocus = not self.lineEditOnFocus
+        self.resolutionXLineEdit.setReadOnly(self.lineEditOnFocus)
+        self.resolutionYLineEdit.setReadOnly(self.lineEditOnFocus)
 
     def closeEvent(self, event):
         self.onClose = True

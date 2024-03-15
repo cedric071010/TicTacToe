@@ -6,16 +6,19 @@ QPushButton {
     min-width: 10em;
     max-width: 10em;
 }
+
 QPushButton#optionButton {
     font-family: "Ayuthaya";
     font-size: 20px;
 }
+
 QComboBox#optionButton {
-    min-width: 15em;
-    max-width: 15em;
+    min-width: 14em;
+    max-width: 14em;
     font-family: "Ayuthaya";
     font-size: 15px;
 }
+
 QPushButton#gameButton {
     min-width: 2.5em;
     max-width: 2.5em;
@@ -23,17 +26,19 @@ QPushButton#gameButton {
     max-height: 2.5em;
     font-size: 60px;
 }
+
 QLabel#stateLabel {
     padding: 0;
     margin: 0;
 }
+
 QSlider#resolutionSlider {
     min-width: 15em;
     max-width: 15em;
 }
+
 QLineEdit#resolutionLineEdit {
     min-width: 15em;
     max-width: 15em;
 }
-
 

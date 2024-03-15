@@ -11,6 +11,10 @@ class MainWindow(QMainWindow, ApplicationInterface):
     def __init__(self):
         super().__init__()
 
+        self.settings = None
+        self.lang = None
+        self.fullScreenState = None
+
         self.timer = QTimer()
         self.timer.timeout.connect(self.updateSettings)
         self.timer.start(1000)
@@ -34,17 +38,18 @@ class MainWindow(QMainWindow, ApplicationInterface):
         self.button9 = QPushButton("X")
         self.w = templateClass.TemplateClass()
 
-        # give elements id for qss
-        for button in [self.singleplayerButton, self.multiplayerButton, self.playUntilWinButton, self.historyButton,
-                       self.achievementButton, self.settingsButton, self.quitButton]:
-            button.setObjectName("optionButton")
-        for button in [self.button1, self.button2, self.button3, self.button4, self.button5, self.button6,
-                       self.button7, self.button8, self.button9]:
-            button.setObjectName("gameButton")
+        ApplicationInterface.setObjectID(self.singleplayerButton, self.multiplayerButton,
+                                         self.playUntilWinButton, self.historyButton, self.achievementButton,
+                                         self.settingsButton, self.quitButton,
+                                         ID="optionButton")
+
+        ApplicationInterface.setObjectID(self.button1, self.button2, self.button3, self.button4,
+                                         self.button5, self.button6, self.button7, self.button8, self.button9,
+                                         ID="gameButton")
 
         # window level configs
         self.setWindowTitle("Tic Tac Toe Remastered")
-        self.resize(1750, 1000)
+        self.resize(1440, 900)
         self.centralWidget = QWidget()
         self.setCentralWidget(self.centralWidget)
 
@@ -71,20 +76,19 @@ class MainWindow(QMainWindow, ApplicationInterface):
 
     def createGUI(self):
         # link buttons with their functions
-        for button, text, action in [[self.singleplayerButton, "Singleplayer", self.singleplayerAction],
-                                     [self.multiplayerButton, "Multiplayer", self.multiplayerAction],
-                                     [self.playUntilWinButton, "Play Until Win", self.playUntilWinAction],
-                                     [self.historyButton, "History", self.historyAction],
-                                     [self.achievementButton, "Achievements", self.achievementAction],
-                                     [self.settingsButton, "Settings", self.settingsAction],
-                                     [self.quitButton, "Quit", self.quitAction]]:
-            button.setText(text)
-            button.clicked.connect(action)
+        ApplicationInterface.assignButtons([self.singleplayerButton, "Singleplayer", self.singleplayerAction],
+                                           [self.multiplayerButton, "Multiplayer", self.multiplayerAction],
+                                           [self.playUntilWinButton, "Play Until Win", self.playUntilWinAction],
+                                           [self.historyButton, "History", self.historyAction],
+                                           [self.achievementButton, "Achievements", self.achievementAction],
+                                           [self.settingsButton, "Settings", self.settingsAction],
+                                           [self.quitButton, "Quit", self.quitAction])
 
         # add widgets to layout
-        for widget in [self.singleplayerButton, self.multiplayerButton, self.playUntilWinButton, self.historyButton,
-                       self.achievementButton, self.settingsButton, self.quitButton]:
-            self.optionLayout.addWidget(widget)
+        ApplicationInterface.addWidgets(self.singleplayerButton, self.multiplayerButton,
+                                        self.playUntilWinButton, self.historyButton, self.achievementButton,
+                                        self.settingsButton, self.quitButton,
+                                        layout=self.optionLayout)
 
         self.centralWidget.setLayout(self.topLevelLayout)
 
@@ -130,8 +134,19 @@ class MainWindow(QMainWindow, ApplicationInterface):
             button.setText(["X", "O"][randint(0, 1)])
 
     def updateSettings(self):
-        if self.w.__class__.__name__ == "TemplateClass" and self.w.onClose:
-            pass
+        if self.w.onClose:
+            self.settings = ApplicationInterface.readFile("back/settings.json")
+            self.lang = self.settings["lang"]
+            self.fullScreenState = self.settings["fullscreen"]
+
+        # lang
+        pass
+
+        # fullscreen
+        if self.fullScreenState:
+            self.showFullScreen()
+        else:
+            self.showNormal()
 
 
 if __name__ == "__main__":

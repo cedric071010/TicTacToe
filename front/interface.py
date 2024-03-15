@@ -30,3 +30,21 @@ class ApplicationInterface:
                 f.write(json.dumps(msg, indent=indent))
                 return
             f.write(msg)
+
+    @staticmethod
+    def setObjectID(*args, ID: str):
+        for obj in args:
+            obj.setObjectName(ID)
+
+    @staticmethod
+    def assignButtons(*args):
+        for arg in args:
+            button = arg[0]
+            button.setText(arg[1])
+            button.clicked.connect(arg[2])
+
+    @staticmethod
+    def addWidgets(*widgets, layout):
+        for widget in widgets:
+            layout.addWidget(widget)
+
