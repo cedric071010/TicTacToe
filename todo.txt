@@ -12,6 +12,8 @@ setting/Interface/clear_mode
 
 not yet
 
+win rate
+
 download file
 start file
 locate file path and change path on start file
