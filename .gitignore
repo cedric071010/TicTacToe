@@ -1,18 +1,4 @@
 
-.vs/TicTacToe/FileContentIndex/e714d9d3-2f0e-41ca-be3e-81ae1c9ea4af.vsidx
-.vs/ProjectSettings.json
-.vs/slnx.sqlite
-.vs/TicTacToe/FileContentIndex/bb2209f9-9cc5-49f7-b958-646d14c3b9b1.vsidx
-.vs/TicTacToe/FileContentIndex/eb59ad4f-1cbc-4e4b-ac36-519a9b740b2a.vsidx
-.vs/TicTacToe/v17/.wsuo
-.vs/VSWorkspaceState.json
-front/__pycache__/interface.cpython-312.pyc
-front/subwindows/__pycache__/achievements.cpython-312.pyc
-front/__pycache__/window.cpython-312.pyc
-front/subwindows/__pycache__/history.cpython-312.pyc
-front/subwindows/__pycache__/multiplayer.cpython-312.pyc
-front/subwindows/__pycache__/playUntilWin.cpython-312.pyc
-front/subwindows/__pycache__/quit.cpython-312.pyc
-front/subwindows/__pycache__/settings.cpython-312.pyc
-front/subwindows/__pycache__/singleplayer.cpython-312.pyc
-front/subwindows/__pycache__/templateClass.cpython-312.pyc
+.vs/
+front/__pycache__/
+front/subwindows/__pycache__/
