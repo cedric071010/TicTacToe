@@ -1,25 +1,27 @@
 right now
 
-auto change size
+    ai
 
-self install library when 1st ran
+    auto change size
 
-setting/Interface/Language
-setting/Interface/Dark mode
-setting/Interface/Colour
-setting/Interface/Language
-setting/Interface/clear_mode
+    self install library when 1st ran
+
+    setting/Interface/Language
+    setting/Interface/Dark mode
+    setting/Interface/Colour
+    setting/Interface/Language
+    setting/Interface/clear_mode
 
 not yet
 
-win rate
+    win rate
 
-download file
-start file
-locate file path and change path on start file
+    download file
+    start file
+    locate file path and change path on start file
 
-1. online mode?
-2. dynamic translations?
-3. close main window after opening subwindow? TECHNICAL DIFFICULTIES: QWidget doesn't show or QMainWindow inheritance shows blank
-4. change bulk widget assignment to interface.py e.g. add widget
-5. screen resolution settings
+    1. online mode?
+    2. dynamic translations?
+    3. close main window after opening subwindow? TECHNICAL DIFFICULTIES: QWidget doesn't show or QMainWindow inheritance shows blank
+    4. change bulk widget assignment to interface.py e.g. add widget
+    5. screen resolution settings
