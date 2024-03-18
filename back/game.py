@@ -1,4 +1,4 @@
-class TicTacToe:
+class Game:
     def __init__(self):
         self.board = ['0'] * 9
         self.current_player = '1'
@@ -40,5 +40,5 @@ class TicTacToe:
 
 # test run
 if __name__ == "__main__":
-    game = TicTacToe()
+    game = Game()
     game.play()
