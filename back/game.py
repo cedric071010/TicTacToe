@@ -17,6 +17,9 @@ class Game:
                 if self.board[condition[0]] == self.board[condition[1]] == self.board[condition[2]] != '0':
                     return True
             return False
+    
+    def check_draw(self):
+        return '0' not in self.board
 
     # simple ui for testing
     def print_board(self):
