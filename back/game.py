@@ -37,8 +37,4 @@ class Game:
                 # simple ui for testing
                 print("Player " + ('2' if self.current_player == '1' else '1') + " win")
                 break
-
-# test run
-if __name__ == "__main__":
-    game = Game()
-    game.play()
+            
