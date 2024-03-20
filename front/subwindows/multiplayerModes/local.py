@@ -1,5 +1,8 @@
-from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QGridLayout, QLabel
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QGridLayout, QLabel, QProgressBar
 from front.interface import ApplicationInterface
+from PyQt6.QtCore import QTimer
+from random import randint
 
 
 class LocalWindow(QWidget, ApplicationInterface):
@@ -22,14 +25,17 @@ class LocalWindow(QWidget, ApplicationInterface):
         self.button8 = QPushButton("")
         self.button9 = QPushButton("")
         self.winLabel = QPushButton("")
+        self.toggleEvalButton = QPushButton("")
         self.resetButton = QPushButton("")
         self.quitButton = QPushButton("")
+        self.evalBar = QProgressBar()
+        self.evalBar.setOrientation(Qt.Orientation.Vertical)
 
         ApplicationInterface.setObjectID(self.button1, self.button2, self.button3, self.button4, self.button5,
                                          self.button6, self.button7, self.button8, self.button9,
                                          ID="gameButton")
 
-        ApplicationInterface.setObjectID(self.winLabel, self.resetButton, self.quitButton,
+        ApplicationInterface.setObjectID(self.winLabel, self.toggleEvalButton, self.resetButton, self.quitButton,
                                          ID="optionButton")
 
         ApplicationInterface.assignButtons([self.button1, "", self.button1Action],
@@ -42,10 +48,12 @@ class LocalWindow(QWidget, ApplicationInterface):
                                            [self.button8, "", self.button8Action],
                                            [self.button9, "", self.button9Action],
                                            [self.winLabel, "No winner yet", type],
+                                           [self.toggleEvalButton, "Toggle Eval.", self.toggleEvalAction],
                                            [self.resetButton, "Reset", self.resetAction],
                                            [self.quitButton, "Quit", self.quitAction])
 
         self.setLayout(self.topLevelLayout)
+        self.topLevelLayout.addWidget(self.evalBar)
         self.topLevelLayout.addLayout(self.buttonLayout)
         self.topLevelLayout.addLayout(self.optionLayout)
 
@@ -59,9 +67,8 @@ class LocalWindow(QWidget, ApplicationInterface):
         self.buttonLayout.addWidget(self.button8, 2, 1)
         self.buttonLayout.addWidget(self.button9, 2, 2)
 
-        self.optionLayout.addWidget(self.winLabel)
-        self.optionLayout.addWidget(self.resetButton)
-        self.optionLayout.addWidget(self.quitButton)
+        ApplicationInterface.addWidgets(self.winLabel, self.toggleEvalButton, self.resetButton, self.quitButton,
+                                        layout=self.optionLayout)
 
         self.resize(1750, 1000)
         self.setWindowTitle("Tic Tac Toe Remastered - Multiplayer")
@@ -74,6 +81,11 @@ class LocalWindow(QWidget, ApplicationInterface):
         self.winningMove = False
         self.moves = 0
         self.isLastMoveValid = True
+        self.evalValue = 50
+
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.refreshEval)
+        self.timer.start(10)
 
     def closeEvent(self, event):
         self.onClose = True
@@ -158,6 +170,9 @@ class LocalWindow(QWidget, ApplicationInterface):
 
         return False
 
+    def toggleEvalAction(self):
+        self.evalBar.show() if self.evalBar.isHidden() else self.evalBar.hide()
+
     def resetAction(self):
         self.playerMove = "X"
         self.winningMove = False
@@ -169,6 +184,17 @@ class LocalWindow(QWidget, ApplicationInterface):
 
     def quitAction(self):
         self.close()
+
+    def refreshEval(self):
+        # test values, waiting back integration
+        self.evalValue += 1
+        if self.evalValue > 100:
+            self.evalValue = 50
+            if not randint(0, 1):
+                self.evalValue = 0
+
+        self.evalBar.setValue(self.evalValue)
+        pass
 
 
 if __name__ == "__main__":
