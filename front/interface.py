@@ -50,8 +50,8 @@ class ApplicationInterface:
             layout.addWidget(widget)
 
     @staticmethod
-    def makeMove(button: PyQt6.QtWidgets.QPushButton, playerMove: str) -> str:
+    def makeMove(button: PyQt6.QtWidgets.QPushButton, playerMove: str) -> [str, bool]:
         if button.text() == "":
             button.setText(playerMove)
-
-        return ("X", "O")[playerMove == "X"]
+            return ("X", "O")[playerMove == "X"], True
+        return playerMove, False

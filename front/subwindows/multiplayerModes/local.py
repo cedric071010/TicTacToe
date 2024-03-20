@@ -73,6 +73,7 @@ class LocalWindow(QWidget, ApplicationInterface):
         self.playerMove = "X"
         self.winningMove = False
         self.moves = 0
+        self.isLastMoveValid = True
 
     def closeEvent(self, event):
         self.onClose = True
@@ -80,79 +81,80 @@ class LocalWindow(QWidget, ApplicationInterface):
 
     def button1Action(self):
         if not self.winningMove:
-            self.playerMove = ApplicationInterface.makeMove(self.button1, self.playerMove)
+            self.playerMove, self.isLastMoveValid = ApplicationInterface.makeMove(self.button1, self.playerMove)
             self.winningMove = self.checkWin()
             if self.winningMove:
                 self.winLabel.setText(f"{self.winningMove} wins!")
 
     def button2Action(self):
         if not self.winningMove:
-            self.playerMove = ApplicationInterface.makeMove(self.button2, self.playerMove)
+            self.playerMove, self.isLastMoveValid = ApplicationInterface.makeMove(self.button2, self.playerMove)
             self.winningMove = self.checkWin()
             if self.winningMove:
                 self.winLabel.setText(f"{self.winningMove} wins!")
 
     def button3Action(self):
         if not self.winningMove:
-            self.playerMove = ApplicationInterface.makeMove(self.button3, self.playerMove)
+            self.playerMove, self.isLastMoveValid = ApplicationInterface.makeMove(self.button3, self.playerMove)
             self.winningMove = self.checkWin()
             if self.winningMove:
                 self.winLabel.setText(f"{self.winningMove} wins!")
 
     def button4Action(self):
         if not self.winningMove:
-            self.playerMove = ApplicationInterface.makeMove(self.button4, self.playerMove)
+            self.playerMove, self.isLastMoveValid = ApplicationInterface.makeMove(self.button4, self.playerMove)
             self.winningMove = self.checkWin()
             if self.winningMove:
                 self.winLabel.setText(f"{self.winningMove} wins!")
 
     def button5Action(self):
         if not self.winningMove:
-            self.playerMove = ApplicationInterface.makeMove(self.button5, self.playerMove)
+            self.playerMove, self.isLastMoveValid = ApplicationInterface.makeMove(self.button5, self.playerMove)
             self.winningMove = self.checkWin()
             if self.winningMove:
                 self.winLabel.setText(f"{self.winningMove} wins!")
 
     def button6Action(self):
         if not self.winningMove:
-            self.playerMove = ApplicationInterface.makeMove(self.button6, self.playerMove)
+            self.playerMove, self.isLastMoveValid = ApplicationInterface.makeMove(self.button6, self.playerMove)
             self.winningMove = self.checkWin()
             if self.winningMove:
                 self.winLabel.setText(f"{self.winningMove} wins!")
 
     def button7Action(self):
         if not self.winningMove:
-            self.playerMove = ApplicationInterface.makeMove(self.button7, self.playerMove)
+            self.playerMove, self.isLastMoveValid = ApplicationInterface.makeMove(self.button7, self.playerMove)
             self.winningMove = self.checkWin()
             if self.winningMove:
                 self.winLabel.setText(f"{self.winningMove} wins!")
 
     def button8Action(self):
         if not self.winningMove:
-            self.playerMove = ApplicationInterface.makeMove(self.button8, self.playerMove)
+            self.playerMove, self.isLastMoveValid = ApplicationInterface.makeMove(self.button8, self.playerMove)
             self.winningMove = self.checkWin()
             if self.winningMove:
                 self.winLabel.setText(f"{self.winningMove} wins!")
 
     def button9Action(self):
         if not self.winningMove:
-            self.playerMove = ApplicationInterface.makeMove(self.button9, self.playerMove)
+            self.playerMove, self.isLastMoveValid = ApplicationInterface.makeMove(self.button9, self.playerMove)
             self.winningMove = self.checkWin()
             if self.winningMove:
                 self.winLabel.setText(f"{self.winningMove} wins!")
 
     def checkWin(self) -> str | bool:
-        self.moves += 1
-        winConditions = [(self.button1, self.button2, self.button3), (self.button4, self.button5, self.button6),
-                         (self.button7, self.button8, self.button9), (self.button1, self.button4, self.button7),
-                         (self.button2, self.button5, self.button8), (self.button3, self.button6, self.button9),
-                         (self.button1, self.button5, self.button9), (self.button3, self.button5, self.button7)]
-        for condition in winConditions:
-            if condition[0] != "" and all(condition[0].text() == button.text() for button in condition):
-                return condition[0].text()
+        if self.isLastMoveValid:
+            self.moves += 1
+            winConditions = [(self.button1, self.button2, self.button3), (self.button4, self.button5, self.button6),
+                             (self.button7, self.button8, self.button9), (self.button1, self.button4, self.button7),
+                             (self.button2, self.button5, self.button8), (self.button3, self.button6, self.button9),
+                             (self.button1, self.button5, self.button9), (self.button3, self.button5, self.button7)]
+            for condition in winConditions:
+                if condition[0] != "" and all(condition[0].text() == button.text() for button in condition):
+                    return condition[0].text()
 
-        if self.moves == 9:
-            return "No one"
+            if self.moves == 9:
+                return "No one"
 
         return False
 
