@@ -1,4 +1,5 @@
 import json
+import PyQt6.QtWidgets
 
 
 class ApplicationInterface:
@@ -48,3 +49,9 @@ class ApplicationInterface:
         for widget in widgets:
             layout.addWidget(widget)
 
+    @staticmethod
+    def makeMove(button: PyQt6.QtWidgets.QPushButton, playerMove: str) -> str:
+        if button.text() == "":
+            button.setText(playerMove)
+
+        return ("X", "O")[playerMove == "X"]
