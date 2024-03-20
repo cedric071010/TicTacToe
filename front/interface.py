@@ -33,24 +33,24 @@ class ApplicationInterface:
             f.write(msg)
 
     @staticmethod
-    def setObjectID(*args: PyQt6.QtWidgets.QWidget, ID: str) -> None:
+    def setObjectID(*args, ID: str):
         for obj in args:
             obj.setObjectName(ID)
 
     @staticmethod
-    def assignButtons(*args: PyQt6.QtWidgets.QPushButton) -> None:
+    def assignButtons(*args):
         for arg in args:
             button = arg[0]
             button.setText(arg[1])
             button.clicked.connect(arg[2])
 
     @staticmethod
-    def addWidgets(*widgets: PyQt6.QtWidgets.QWidget, layout: PyQt6.QtWidgets.QLayout) -> None:
+    def addWidgets(*widgets, layout):
         for widget in widgets:
             layout.addWidget(widget)
 
     @staticmethod
-    def makeMove(button: PyQt6.QtWidgets.QPushButton, playerMove: str) -> tuple[str, bool]:
+    def makeMove(button: PyQt6.QtWidgets.QPushButton, playerMove: str) -> [str, bool]:
         if button.text() == "":
             button.setText(playerMove)
             return ("X", "O")[playerMove == "X"], True
