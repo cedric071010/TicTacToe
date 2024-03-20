@@ -42,3 +42,7 @@ QLineEdit#resolutionLineEdit {
     max-width: 15em;
 }
 
+QProgressBar{
+
+}
+
