@@ -1,4 +1,5 @@
 from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout
+
 from front.interface import ApplicationInterface
 
 
@@ -9,17 +10,22 @@ class QuitWindow(QWidget, ApplicationInterface):
         self.onClose = False
 
         self.layout = QHBoxLayout()
-        self.labelButton = QPushButton()
-        self.labelButton.setObjectName("optionButton")
+        self.quitButton = QPushButton()
+        self.quitButton.setObjectName("optionButton")
+        self.backButton = QPushButton()
+        self.backButton.setObjectName("optionButton")
 
-        self.labelButton.setText("Quit")
-        self.labelButton.clicked.connect(quit)
+        self.quitButton.setText("Quit")
+        self.backButton.setText("Back")
+        self.quitButton.clicked.connect(quit)
+        self.backButton.clicked.connect(self.close)
 
-        self.layout.addWidget(self.labelButton)
+        self.layout.addWidget(self.quitButton)
+        self.layout.addWidget(self.backButton)
         self.setLayout(self.layout)
 
         self.resize(1750, 1000)
-        self.setWindowTitle("Tic Tac Toe Remastered - Quit")
+        self.setWindowTitle("Tic Tac Toe Remastered - Confirm Quit")
 
         with open("front/global.qss", "r") as f:
             stylesheet = str(f.read())
