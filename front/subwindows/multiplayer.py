@@ -1,5 +1,7 @@
-from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout
+from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QVBoxLayout
 from front.interface import ApplicationInterface
+from front.subwindows.multiplayerModes import local
+from front.subwindows.templateClass import TemplateClass
 
 
 class MultiplayerWindow(QWidget, ApplicationInterface):
@@ -9,13 +11,24 @@ class MultiplayerWindow(QWidget, ApplicationInterface):
         self.onClose = False
 
         self.layout = QHBoxLayout()
-        self.labelButton = QPushButton()
-        self.labelButton.setObjectName("optionButton")
+        self.localButton = QPushButton()
+        self.LANButton = QPushButton()
+        self.onlineButton = QPushButton()
+        self.quitButton = QPushButton()
+        self.w = TemplateClass()
 
-        self.labelButton.setText("Hello World")
+        ApplicationInterface.setObjectID(self.localButton, self.LANButton, self.onlineButton, self.quitButton,
+                                         ID="optionButton")
 
-        self.layout.addWidget(self.labelButton)
+        ApplicationInterface.addWidgets(self.localButton, self.LANButton, self.onlineButton, self.quitButton,
+                                        layout=self.layout)
+
         self.setLayout(self.layout)
+
+        ApplicationInterface.assignButtons([self.localButton, "Local Mode", self.localAction],
+                                           [self.LANButton, "LAN Mode", self.LANAction],
+                                           [self.onlineButton, "Online Mode", self.onlineAction],
+                                           [self.quitButton, "Back", self.quitAction])
 
         self.resize(1750, 1000)
         self.setWindowTitle("Tic Tac Toe Remastered - Multiplayer")
@@ -26,6 +39,20 @@ class MultiplayerWindow(QWidget, ApplicationInterface):
 
     def closeEvent(self, event):
         self.onClose = True
+        self.close()
+
+    def localAction(self):
+        if self.w.onClose:
+            self.w = local.LocalWindow()
+            self.w.show()
+
+    def LANAction(self):
+        pass
+
+    def onlineAction(self):
+        pass
+
+    def quitAction(self):
         self.close()
 
 
