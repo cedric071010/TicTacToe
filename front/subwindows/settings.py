@@ -1,5 +1,6 @@
 from PyQt6.QtGui import QIntValidator
-from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QComboBox, QLabel, QSlider, QLineEdit
+from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QComboBox, QLabel, QLineEdit, \
+    QGridLayout
 from front.interface import ApplicationFrontInterface
 from PyQt6.QtCore import Qt
 import json
@@ -23,65 +24,50 @@ class SettingsWindow(QWidget, ApplicationFrontInterface):
 
         self.topLevelLayout = QHBoxLayout()
         self.layout = QVBoxLayout()
+        self.gridLayout = QGridLayout()
         self.langComboBox = QComboBox()
         self.fullScreenButton = QPushButton()
         self.applyButton = QPushButton()
-        self.resolutionXSlider = QSlider(Qt.Orientation.Horizontal)
+        self.quitButton = QPushButton()
+
         self.resolutionXLineEdit = QLineEdit()
-        self.resolutionYSlider = QSlider(Qt.Orientation.Horizontal)
-        self.resolutionYLineEdit = QLineEdit()
-
-        self.resolutionXSlider.setMinimum(256)
-        self.resolutionXSlider.setMaximum(4096)
-        self.resolutionXSlider.setTickPosition(QSlider.TickPosition.TicksBelow)
-        self.resolutionXSlider.setSingleStep(256)
-        self.resolutionXSlider.setTickInterval(256)
-        self.resolutionXSlider.valueChanged.connect(self.displayXSliderAction)
-        self.resolutionYSlider.setMinimum(256)
-        self.resolutionYSlider.setMaximum(4096)
-        self.resolutionYSlider.setTickPosition(QSlider.TickPosition.TicksBelow)
-        self.resolutionYSlider.setSingleStep(256)
-        self.resolutionYSlider.setTickInterval(256)
-        self.resolutionYSlider.valueChanged.connect(self.displayYSliderAction)
-
         self.resolutionXLineEdit.setValidator(QIntValidator())
         self.resolutionXLineEdit.setMaxLength(4)
         self.resolutionXLineEdit.setReadOnly(True)
         self.resolutionXLineEdit.returnPressed.connect(self.resolutionLineEditOnPress)
+
+        self.resolutionYLineEdit = QLineEdit()
         self.resolutionYLineEdit.setValidator(QIntValidator())
         self.resolutionYLineEdit.setMaxLength(4)
         self.resolutionYLineEdit.setReadOnly(True)
         self.resolutionYLineEdit.returnPressed.connect(self.resolutionLineEditOnPress)
         # incomplete, needs save and link slider
 
-        self.langComboBox.setObjectName("optionButton")
-        self.fullScreenButton.setObjectName("optionButton")
-        self.applyButton.setObjectName("optionButton")
-        self.resolutionXSlider.setObjectName("resolutionSlider")
-        self.resolutionXLineEdit.setObjectName("resolutionLineEdit")
-        self.resolutionYSlider.setObjectName("resolutionSlider")
-        self.resolutionYLineEdit.setObjectName("resolutionLineEdit")
+        ApplicationFrontInterface.setObjectID(self.langComboBox, self.fullScreenButton, self.applyButton,
+                                              self.quitButton, ID="optionButton")
+        ApplicationFrontInterface.setObjectID(self.resolutionXLineEdit,
+                                              self.resolutionYLineEdit, ID="resolutionLineEdit")
 
         self.fullScreenButton.setText(f"Fullscreen - {['Off', 'On'][self.fullScreenState]}")
         self.fullScreenButton.clicked.connect(self.fullScreenAction)
         if self.fullScreenState:
             self.showFullScreen()
 
-        self.applyButton.setText("Apply")
-        self.applyButton.clicked.connect(self.applyAction)
+        ApplicationFrontInterface.assignButtons([self.applyButton, "Apply", self.applyAction],
+                                                [self.quitButton, "Back", self.quitAction])
 
         self.langComboBox.addItems(self.locales.keys())
         self.langComboBox.setCurrentText([i[0] for i in self.locales.items() if i[1] == self.lang][0])
 
-        self.layout.addWidget(self.langComboBox)
-        self.layout.addWidget(self.fullScreenButton)
-        self.layout.addWidget(self.applyButton)
-        self.layout.addWidget(self.resolutionXSlider)
-        self.layout.addWidget(self.resolutionXLineEdit)
-        self.layout.addWidget(self.resolutionYSlider)
-        self.layout.addWidget(self.resolutionYLineEdit)
+        self.gridLayout.addWidget(self.langComboBox, 0, 0)
+        self.gridLayout.addWidget(self.fullScreenButton, 1, 0)
+        self.gridLayout.addWidget(self.applyButton, 2, 0)
+        self.gridLayout.addWidget(self.quitButton, 3, 0)
+        self.gridLayout.addWidget(self.resolutionXLineEdit, 0, 1)
+        self.gridLayout.addWidget(self.resolutionYLineEdit, 1, 1)
         # layout bug
-        self.topLevelLayout.addLayout(self.layout)
+        self.topLevelLayout.addLayout(self.gridLayout)
+
         self.setLayout(self.topLevelLayout)
 
         self.resize(1440, 900)
@@ -99,12 +85,6 @@ class SettingsWindow(QWidget, ApplicationFrontInterface):
         self.onClose = True
         self.close()
 
-    def displayXSliderAction(self):
-        self.resolutionXLineEdit.setText(f"{self.resolutionXSlider.value()}")
-
-    def displayYSliderAction(self):
-        self.resolutionYLineEdit.setText(f"{self.resolutionYSlider.value()}")
-
     def fullScreenAction(self):
         self.fullScreenState = not self.fullScreenState
         if self.fullScreenState:
@@ -119,6 +99,10 @@ class SettingsWindow(QWidget, ApplicationFrontInterface):
         self.settings["lang"] = self.lang
         self.settings["fullscreen"] = int(self.fullScreenState)
         ApplicationFrontInterface.writeFile("back/settings.json", self.settings)
+
+    def quitAction(self):
+        self.onClose = True
+        self.close()
 
 
 if __name__ == "__main__":
