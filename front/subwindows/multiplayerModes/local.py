@@ -1,11 +1,12 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QGridLayout, QLabel, QProgressBar
-from front.interface import ApplicationInterface
+from front.interface import ApplicationFrontInterface
+from back.interface import ApplicationBackInterface
 from PyQt6.QtCore import QTimer
 from random import randint
 
 
-class LocalWindow(QWidget, ApplicationInterface):
+class LocalWindow(QWidget, ApplicationFrontInterface):
     def __init__(self):
         super(LocalWindow, self).__init__()
 
@@ -24,6 +25,8 @@ class LocalWindow(QWidget, ApplicationInterface):
         self.button7 = QPushButton("")
         self.button8 = QPushButton("")
         self.button9 = QPushButton("")
+        self.allButtons = (self.button1, self.button2, self.button3, self.button4, self.button5, self.button6,
+                           self.button7, self.button8, self.button9)
         self.winLabel = QPushButton("")
         self.toggleEvalButton = QPushButton("")
         self.resetButton = QPushButton("")
@@ -31,26 +34,26 @@ class LocalWindow(QWidget, ApplicationInterface):
         self.evalBar = QProgressBar()
         self.evalBar.setOrientation(Qt.Orientation.Vertical)
 
-        ApplicationInterface.setObjectID(self.button1, self.button2, self.button3, self.button4, self.button5,
-                                         self.button6, self.button7, self.button8, self.button9,
-                                         ID="gameButton")
+        ApplicationFrontInterface.setObjectID(self.button1, self.button2, self.button3, self.button4, self.button5,
+                                              self.button6, self.button7, self.button8, self.button9,
+                                              ID="gameButton")
 
-        ApplicationInterface.setObjectID(self.winLabel, self.toggleEvalButton, self.resetButton, self.quitButton,
-                                         ID="optionButton")
+        ApplicationFrontInterface.setObjectID(self.winLabel, self.toggleEvalButton, self.resetButton, self.quitButton,
+                                              ID="optionButton")
 
-        ApplicationInterface.assignButtons([self.button1, "", self.button1Action],
-                                           [self.button2, "", self.button2Action],
-                                           [self.button3, "", self.button3Action],
-                                           [self.button4, "", self.button4Action],
-                                           [self.button5, "", self.button5Action],
-                                           [self.button6, "", self.button6Action],
-                                           [self.button7, "", self.button7Action],
-                                           [self.button8, "", self.button8Action],
-                                           [self.button9, "", self.button9Action],
-                                           [self.winLabel, "No winner yet", type],
-                                           [self.toggleEvalButton, "Toggle Eval.", self.toggleEvalAction],
-                                           [self.resetButton, "Reset", self.resetAction],
-                                           [self.quitButton, "Quit", self.quitAction])
+        ApplicationFrontInterface.assignButtons([self.button1, "", lambda: self.buttonAction(self.button1)],
+                                                [self.button2, "", lambda: self.buttonAction(self.button2)],
+                                                [self.button3, "", lambda: self.buttonAction(self.button3)],
+                                                [self.button4, "", lambda: self.buttonAction(self.button4)],
+                                                [self.button5, "", lambda: self.buttonAction(self.button5)],
+                                                [self.button6, "", lambda: self.buttonAction(self.button6)],
+                                                [self.button7, "", lambda: self.buttonAction(self.button7)],
+                                                [self.button8, "", lambda: self.buttonAction(self.button8)],
+                                                [self.button9, "", lambda: self.buttonAction(self.button9)],
+                                                [self.winLabel, "No winner yet", type],
+                                                [self.toggleEvalButton, "Toggle Eval.", self.toggleEvalAction],
+                                                [self.resetButton, "Reset", self.resetAction],
+                                                [self.quitButton, "Quit", self.quitAction])
 
         self.setLayout(self.topLevelLayout)
         self.topLevelLayout.addWidget(self.evalBar)
@@ -67,8 +70,8 @@ class LocalWindow(QWidget, ApplicationInterface):
         self.buttonLayout.addWidget(self.button8, 2, 1)
         self.buttonLayout.addWidget(self.button9, 2, 2)
 
-        ApplicationInterface.addWidgets(self.winLabel, self.toggleEvalButton, self.resetButton, self.quitButton,
-                                        layout=self.optionLayout)
+        ApplicationFrontInterface.addWidgets(self.winLabel, self.toggleEvalButton, self.resetButton, self.quitButton,
+                                             layout=self.optionLayout)
 
         self.resize(1750, 1000)
         self.setWindowTitle("Tic Tac Toe Remastered - Multiplayer")
@@ -91,84 +94,15 @@ class LocalWindow(QWidget, ApplicationInterface):
         self.onClose = True
         self.close()
 
-    def button1Action(self):
-        if not self.winningMove:
-            self.playerMove, self.isLastMoveValid = ApplicationInterface.makeMove(self.button1, self.playerMove)
-            self.winningMove = self.checkWin()
-            if self.winningMove:
-                self.winLabel.setText(f"{self.winningMove} wins!")
+    def buttonAction(self, button):
+        if self.winningMove:
+            return
 
-    def button2Action(self):
-        if not self.winningMove:
-            self.playerMove, self.isLastMoveValid = ApplicationInterface.makeMove(self.button2, self.playerMove)
-            self.winningMove = self.checkWin()
-            if self.winningMove:
-                self.winLabel.setText(f"{self.winningMove} wins!")
-
-    def button3Action(self):
-        if not self.winningMove:
-            self.playerMove, self.isLastMoveValid = ApplicationInterface.makeMove(self.button3, self.playerMove)
-            self.winningMove = self.checkWin()
-            if self.winningMove:
-                self.winLabel.setText(f"{self.winningMove} wins!")
-
-    def button4Action(self):
-        if not self.winningMove:
-            self.playerMove, self.isLastMoveValid = ApplicationInterface.makeMove(self.button4, self.playerMove)
-            self.winningMove = self.checkWin()
-            if self.winningMove:
-                self.winLabel.setText(f"{self.winningMove} wins!")
-
-    def button5Action(self):
-        if not self.winningMove:
-            self.playerMove, self.isLastMoveValid = ApplicationInterface.makeMove(self.button5, self.playerMove)
-            self.winningMove = self.checkWin()
-            if self.winningMove:
-                self.winLabel.setText(f"{self.winningMove} wins!")
-
-    def button6Action(self):
-        if not self.winningMove:
-            self.playerMove, self.isLastMoveValid = ApplicationInterface.makeMove(self.button6, self.playerMove)
-            self.winningMove = self.checkWin()
-            if self.winningMove:
-                self.winLabel.setText(f"{self.winningMove} wins!")
-
-    def button7Action(self):
-        if not self.winningMove:
-            self.playerMove, self.isLastMoveValid = ApplicationInterface.makeMove(self.button7, self.playerMove)
-            self.winningMove = self.checkWin()
-            if self.winningMove:
-                self.winLabel.setText(f"{self.winningMove} wins!")
-
-    def button8Action(self):
-        if not self.winningMove:
-            self.playerMove, self.isLastMoveValid = ApplicationInterface.makeMove(self.button8, self.playerMove)
-            self.winningMove = self.checkWin()
-            if self.winningMove:
-                self.winLabel.setText(f"{self.winningMove} wins!")
-
-    def button9Action(self):
-        if not self.winningMove:
-            self.playerMove, self.isLastMoveValid = ApplicationInterface.makeMove(self.button9, self.playerMove)
-            self.winningMove = self.checkWin()
-            if self.winningMove:
-                self.winLabel.setText(f"{self.winningMove} wins!")
-
-    def checkWin(self) -> str | bool:
-        if self.isLastMoveValid:
-            self.moves += 1
-            winConditions = [(self.button1, self.button2, self.button3), (self.button4, self.button5, self.button6),
-                             (self.button7, self.button8, self.button9), (self.button1, self.button4, self.button7),
-                             (self.button2, self.button5, self.button8), (self.button3, self.button6, self.button9),
-                             (self.button1, self.button5, self.button9), (self.button3, self.button5, self.button7)]
-            for condition in winConditions:
-                if condition[0] != "" and all(condition[0].text() == button.text() for button in condition):
-                    return condition[0].text()
-
-            if self.moves == 9:
-                return "No one"
-
-        return False
+        self.playerMove, self.isLastMoveValid = ApplicationBackInterface.makeMove(button, self.playerMove)
+        self.winningMove, self.moves = ApplicationBackInterface.checkWin(self.isLastMoveValid, self.allButtons,
+                                                                         self.moves)
+        if self.winningMove:
+            self.winLabel.setText(f"{self.winningMove} wins!")
 
     def toggleEvalAction(self):
         self.evalBar.show() if self.evalBar.isHidden() else self.evalBar.hide()
