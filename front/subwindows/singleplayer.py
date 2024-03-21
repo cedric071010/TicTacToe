@@ -92,7 +92,7 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
                                              layout=self.optionLayout)
 
         self.resize(1750, 1000)
-        self.setWindowTitle("Tic Tac Toe Remastered - Multiplayer")
+        self.setWindowTitle("Tic Tac Toe Remastered - Singleplayer")
 
         with open("front/global.qss", "r") as f:
             stylesheet = str(f.read())
@@ -173,6 +173,15 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
                                                                              self.moves)
             if self.winningMove:
                 self.winLabel.setText(f"{self.winningMove} wins!")
+
+        elif self.difficulty == "Easy":
+            pass
+
+        elif self.difficulty == "Normal":
+            pass
+
+        elif self.difficulty == "Impossible":
+            pass
 
         self.didLastMoveFinish = True
 

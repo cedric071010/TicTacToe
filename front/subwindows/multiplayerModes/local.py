@@ -74,7 +74,7 @@ class LocalWindow(QWidget, ApplicationFrontInterface):
                                              layout=self.optionLayout)
 
         self.resize(1750, 1000)
-        self.setWindowTitle("Tic Tac Toe Remastered - Multiplayer")
+        self.setWindowTitle("Tic Tac Toe Remastered - Local Mode")
 
         with open("front/global.qss", "r") as f:
             stylesheet = str(f.read())
