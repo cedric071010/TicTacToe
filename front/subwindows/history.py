@@ -1,8 +1,8 @@
 from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout
-from front.interface import ApplicationInterface
+from front.interface import ApplicationFrontInterface
 
 
-class HistoryWindow(QWidget, ApplicationInterface):
+class HistoryWindow(QWidget, ApplicationFrontInterface):
     def __init__(self):
         super(HistoryWindow, self).__init__()
 

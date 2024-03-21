@@ -1,8 +1,8 @@
 from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout
-from front.interface import ApplicationInterface
+from front.interface import ApplicationFrontInterface
 
 
-class PlayUntilWinWindow(QWidget, ApplicationInterface):
+class PlayUntilWinWindow(QWidget, ApplicationFrontInterface):
     def __init__(self):
         super(PlayUntilWinWindow, self).__init__()
 

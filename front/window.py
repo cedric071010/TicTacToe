@@ -1,12 +1,12 @@
 from PyQt6.QtWidgets import QWidget, QMainWindow, QPushButton, QHBoxLayout, QVBoxLayout, QGridLayout
 from PyQt6.QtCore import QTimer
-from front.interface import ApplicationInterface
+from front.interface import ApplicationFrontInterface
 from random import randint
 from front.subwindows import singleplayer, multiplayer, playUntilWin, history, achievements, settings, quit, \
     templateClass
 
 
-class MainWindow(QMainWindow, ApplicationInterface):
+class MainWindow(QMainWindow, ApplicationFrontInterface):
 
     def __init__(self):
         super().__init__()
@@ -38,14 +38,14 @@ class MainWindow(QMainWindow, ApplicationInterface):
         self.button9 = QPushButton("X")
         self.w = templateClass.TemplateClass()
 
-        ApplicationInterface.setObjectID(self.singleplayerButton, self.multiplayerButton,
-                                         self.playUntilWinButton, self.historyButton, self.achievementButton,
-                                         self.settingsButton, self.quitButton,
-                                         ID="optionButton")
+        ApplicationFrontInterface.setObjectID(self.singleplayerButton, self.multiplayerButton,
+                                              self.playUntilWinButton, self.historyButton, self.achievementButton,
+                                              self.settingsButton, self.quitButton,
+                                              ID="optionButton")
 
-        ApplicationInterface.setObjectID(self.button1, self.button2, self.button3, self.button4,
-                                         self.button5, self.button6, self.button7, self.button8, self.button9,
-                                         ID="gameButton")
+        ApplicationFrontInterface.setObjectID(self.button1, self.button2, self.button3, self.button4,
+                                              self.button5, self.button6, self.button7, self.button8, self.button9,
+                                              ID="gameButton")
 
         # window level configs
         self.setWindowTitle("Tic Tac Toe Remastered")
@@ -76,19 +76,19 @@ class MainWindow(QMainWindow, ApplicationInterface):
 
     def createGUI(self):
         # link buttons with their functions
-        ApplicationInterface.assignButtons([self.singleplayerButton, "Singleplayer", self.singleplayerAction],
-                                           [self.multiplayerButton, "Multiplayer", self.multiplayerAction],
-                                           [self.playUntilWinButton, "Play Until Win", self.playUntilWinAction],
-                                           [self.historyButton, "History", self.historyAction],
-                                           [self.achievementButton, "Achievements", self.achievementAction],
-                                           [self.settingsButton, "Settings", self.settingsAction],
-                                           [self.quitButton, "Quit", self.quitAction])
+        ApplicationFrontInterface.assignButtons([self.singleplayerButton, "Singleplayer", self.singleplayerAction],
+                                                [self.multiplayerButton, "Multiplayer", self.multiplayerAction],
+                                                [self.playUntilWinButton, "Play Until Win", self.playUntilWinAction],
+                                                [self.historyButton, "History", self.historyAction],
+                                                [self.achievementButton, "Achievements", self.achievementAction],
+                                                [self.settingsButton, "Settings", self.settingsAction],
+                                                [self.quitButton, "Quit", self.quitAction])
 
         # add widgets to layout
-        ApplicationInterface.addWidgets(self.singleplayerButton, self.multiplayerButton,
-                                        self.playUntilWinButton, self.historyButton, self.achievementButton,
-                                        self.settingsButton, self.quitButton,
-                                        layout=self.optionLayout)
+        ApplicationFrontInterface.addWidgets(self.singleplayerButton, self.multiplayerButton,
+                                             self.playUntilWinButton, self.historyButton, self.achievementButton,
+                                             self.settingsButton, self.quitButton,
+                                             layout=self.optionLayout)
 
         self.centralWidget.setLayout(self.topLevelLayout)
 
@@ -135,7 +135,7 @@ class MainWindow(QMainWindow, ApplicationInterface):
 
     def updateSettings(self):
         if self.w.onClose:
-            self.settings = ApplicationInterface.readFile("back/settings.json")
+            self.settings = ApplicationFrontInterface.readFile("back/settings.json")
             self.lang = self.settings["lang"]
             self.fullScreenState = self.settings["fullscreen"]
 

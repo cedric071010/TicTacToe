@@ -1,8 +1,8 @@
 from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout
-from front.interface import ApplicationInterface
+from front.interface import ApplicationFrontInterface
 
 
-class AchievementsWindow(QWidget, ApplicationInterface):
+class AchievementsWindow(QWidget, ApplicationFrontInterface):
     def __init__(self):
         super(AchievementsWindow, self).__init__()
 

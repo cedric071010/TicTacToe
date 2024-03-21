@@ -1,19 +1,19 @@
 from PyQt6.QtGui import QIntValidator
 from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QComboBox, QLabel, QSlider, QLineEdit
-from front.interface import ApplicationInterface
+from front.interface import ApplicationFrontInterface
 from PyQt6.QtCore import Qt
 import json
 from time import sleep
 
 
-class SettingsWindow(QWidget, ApplicationInterface):
+class SettingsWindow(QWidget, ApplicationFrontInterface):
     def __init__(self):
         super(SettingsWindow, self).__init__()
 
         self.settingsFile = None
 
-        self.locales = ApplicationInterface.readFile("front/assets/lang/locales.json")
-        self.settings = ApplicationInterface.readFile("back/settings.json")
+        self.locales = ApplicationFrontInterface.readFile("front/assets/lang/locales.json")
+        self.settings = ApplicationFrontInterface.readFile("back/settings.json")
 
         self.onClose = False
         self.lang = self.settings["lang"]
@@ -87,7 +87,7 @@ class SettingsWindow(QWidget, ApplicationInterface):
         self.resize(1440, 900)
         self.setWindowTitle("Tic Tac Toe Remastered - Settings")
 
-        stylesheet = ApplicationInterface.readFile("front/global.qss", isJSON=False)
+        stylesheet = ApplicationFrontInterface.readFile("front/global.qss", isJSON=False)
         self.setStyleSheet(stylesheet)
 
     def resolutionLineEditOnPress(self):
@@ -118,7 +118,7 @@ class SettingsWindow(QWidget, ApplicationInterface):
         self.lang = self.locales[self.langComboBox.currentText()]
         self.settings["lang"] = self.lang
         self.settings["fullscreen"] = int(self.fullScreenState)
-        ApplicationInterface.writeFile("back/settings.json", self.settings)
+        ApplicationFrontInterface.writeFile("back/settings.json", self.settings)
 
 
 if __name__ == "__main__":

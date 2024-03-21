@@ -1,10 +1,10 @@
 from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QGridLayout
-from front.interface import ApplicationInterface
+from front.interface import ApplicationFrontInterface
 from front.subwindows.multiplayerModes import local
 from front.subwindows.templateClass import TemplateClass
 
 
-class MultiplayerWindow(QWidget, ApplicationInterface):
+class MultiplayerWindow(QWidget, ApplicationFrontInterface):
     def __init__(self):
         super(MultiplayerWindow, self).__init__()
 
@@ -17,8 +17,8 @@ class MultiplayerWindow(QWidget, ApplicationInterface):
         self.quitButton = QPushButton()
         self.w = TemplateClass()
 
-        ApplicationInterface.setObjectID(self.localButton, self.LANButton, self.onlineButton, self.quitButton,
-                                         ID="optionButton")
+        ApplicationFrontInterface.setObjectID(self.localButton, self.LANButton, self.onlineButton, self.quitButton,
+                                              ID="optionButton")
 
         self.layout.addWidget(self.localButton, 0, 0)
         self.layout.addWidget(self.LANButton, 0, 1)
@@ -27,10 +27,10 @@ class MultiplayerWindow(QWidget, ApplicationInterface):
 
         self.setLayout(self.layout)
 
-        ApplicationInterface.assignButtons([self.localButton, "Local Mode", self.localAction],
-                                           [self.LANButton, "LAN Mode", self.LANAction],
-                                           [self.onlineButton, "Online Mode", self.onlineAction],
-                                           [self.quitButton, "Back", self.quitAction])
+        ApplicationFrontInterface.assignButtons([self.localButton, "Local Mode", self.localAction],
+                                                [self.LANButton, "LAN Mode", self.LANAction],
+                                                [self.onlineButton, "Online Mode", self.onlineAction],
+                                                [self.quitButton, "Back", self.quitAction])
 
         self.resize(1750, 1000)
         self.setWindowTitle("Tic Tac Toe Remastered - Multiplayer")

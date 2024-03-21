@@ -1,9 +1,9 @@
 from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout
 
-from front.interface import ApplicationInterface
+from front.interface import ApplicationFrontInterface
 
 
-class QuitWindow(QWidget, ApplicationInterface):
+class QuitWindow(QWidget, ApplicationFrontInterface):
     def __init__(self):
         super(QuitWindow, self).__init__()
 
