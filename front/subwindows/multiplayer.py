@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QVBoxLayout
+from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QGridLayout
 from front.interface import ApplicationInterface
 from front.subwindows.multiplayerModes import local
 from front.subwindows.templateClass import TemplateClass
@@ -10,7 +10,7 @@ class MultiplayerWindow(QWidget, ApplicationInterface):
 
         self.onClose = False
 
-        self.layout = QHBoxLayout()
+        self.layout = QGridLayout()
         self.localButton = QPushButton()
         self.LANButton = QPushButton()
         self.onlineButton = QPushButton()
@@ -20,8 +20,10 @@ class MultiplayerWindow(QWidget, ApplicationInterface):
         ApplicationInterface.setObjectID(self.localButton, self.LANButton, self.onlineButton, self.quitButton,
                                          ID="optionButton")
 
-        ApplicationInterface.addWidgets(self.localButton, self.LANButton, self.onlineButton, self.quitButton,
-                                        layout=self.layout)
+        self.layout.addWidget(self.localButton, 0, 0)
+        self.layout.addWidget(self.LANButton, 0, 1)
+        self.layout.addWidget(self.onlineButton, 1, 0)
+        self.layout.addWidget(self.quitButton, 1, 1)
 
         self.setLayout(self.layout)
 
