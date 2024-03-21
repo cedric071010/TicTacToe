@@ -1,8 +1,7 @@
 import json
-import PyQt6.QtWidgets
 
 
-class ApplicationInterface:
+class ApplicationFrontInterface:
     @staticmethod
     def readFile(filePath: str, isJSON: bool = True) -> dict | str:
         """
@@ -49,9 +48,3 @@ class ApplicationInterface:
         for widget in widgets:
             layout.addWidget(widget)
 
-    @staticmethod
-    def makeMove(button: PyQt6.QtWidgets.QPushButton, playerMove: str) -> [str, bool]:
-        if button.text() == "":
-            button.setText(playerMove)
-            return ("X", "O")[playerMove == "X"], True
-        return playerMove, False
