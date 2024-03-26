@@ -131,6 +131,7 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
                 return
 
             if self.isLastMoveValid:
+                self.didLastMoveFinish = False
                 self.botMoveDelayTimer.start(self.delayTime)
 
     def difficultyAction(self):
@@ -148,10 +149,8 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
         self.evalBar.show() if self.evalBar.isHidden() else self.evalBar.hide()
 
     def toggleSpeedAction(self):
-        try:
-            self.delayTime = list(self.ALL_SPEEDS)[list(self.ALL_SPEEDS).index(self.delayTime) + 1]
-        except IndexError:
-            self.delayTime = list(self.ALL_SPEEDS)[0]
+        self.delayTime = list(self.ALL_SPEEDS)[(list(self.ALL_SPEEDS).index(self.delayTime) + 1)
+                                               % len(list(self.ALL_SPEEDS))]
         self.toggleSpeedButton.setText(f"Speed: {self.ALL_SPEEDS[self.delayTime]}")
 
     def resetAction(self):
@@ -164,6 +163,7 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
         self.playerMove = self.firstMove
         if self.firstMove == 'O':
             self.playerMove = 'X'
+            self.didLastMoveFinish = False
             self.botMoveDelayTimer.start(self.delayTime)
 
     def quitAction(self):
@@ -180,8 +180,6 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
         self.evalBar.setValue(self.evalValue)
 
     def botMove(self):
-        self.didLastMoveFinish = False
-
         if self.difficulty == "Random":
             pos = RandomPlayer.make_random_move(self.getBoard())
             self.allButtons[pos].setText(self.playerMove)
@@ -199,7 +197,6 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
 
         elif self.difficulty == "Impossible":
             pass
-
         self.didLastMoveFinish = True
 
     def getBoard(self):
