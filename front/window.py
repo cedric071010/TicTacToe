@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QMainWindow, QPushButton, QHBoxLayout, QVBoxLayout, QGridLayout
+from PyQt6.QtWidgets import QWidget, QMainWindow, QPushButton, QHBoxLayout, QVBoxLayout, QGridLayout, QLabel
 from PyQt6.QtCore import QTimer
 from front.interface import ApplicationFrontInterface
 from random import randint
@@ -11,7 +11,8 @@ class MainWindow(QMainWindow, ApplicationFrontInterface):
     def __init__(self):
         super().__init__()
 
-        self.settings = None
+        self.settings = ApplicationFrontInterface.readFile("back/settings.json")
+
         self.lang = None
         self.fullScreenState = None
 
@@ -68,6 +69,11 @@ class MainWindow(QMainWindow, ApplicationFrontInterface):
         self.buttonLayout.addWidget(self.button7, 2, 0)
         self.buttonLayout.addWidget(self.button8, 2, 1)
         self.buttonLayout.addWidget(self.button9, 2, 2)
+        # to prevent offset
+        if self.settings["theme"] != "default":
+            self.buttonLayout.addWidget(QLabel(), 3, 0)
+            self.buttonLayout.addWidget(QLabel(), 3, 1)
+            self.buttonLayout.addWidget(QLabel(), 3, 2)
 
         self.topLevelLayout.addLayout(self.optionLayout)
         self.topLevelLayout.addLayout(self.buttonLayout)

@@ -8,6 +8,8 @@ class MultiplayerWindow(QWidget, ApplicationFrontInterface):
     def __init__(self):
         super(MultiplayerWindow, self).__init__()
 
+        self.settings = ApplicationFrontInterface.readFile("back/settings.json")
+
         self.onClose = False
 
         self.layout = QGridLayout()

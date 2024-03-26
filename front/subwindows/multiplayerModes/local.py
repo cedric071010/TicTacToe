@@ -10,6 +10,8 @@ class LocalWindow(QWidget, ApplicationFrontInterface):
     def __init__(self):
         super(LocalWindow, self).__init__()
 
+        self.settings = ApplicationFrontInterface.readFile("back/settings.json")
+
         self.onClose = False
 
         self.topLevelLayout = QHBoxLayout()
@@ -69,6 +71,10 @@ class LocalWindow(QWidget, ApplicationFrontInterface):
         self.buttonLayout.addWidget(self.button7, 2, 0)
         self.buttonLayout.addWidget(self.button8, 2, 1)
         self.buttonLayout.addWidget(self.button9, 2, 2)
+        if self.settings["theme"] != "default":
+            self.buttonLayout.addWidget(QLabel(), 3, 0)
+            self.buttonLayout.addWidget(QLabel(), 3, 1)
+            self.buttonLayout.addWidget(QLabel(), 3, 2)
 
         ApplicationFrontInterface.addWidgets(self.winLabel, self.toggleEvalButton, self.resetButton, self.quitButton,
                                              layout=self.optionLayout)
