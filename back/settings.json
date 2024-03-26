@@ -1,4 +1,5 @@
 {
   "lang": "en_us",
-  "fullscreen": 0
+  "fullscreen": 0,
+  "theme": "dark_teal.xml"
 }
