@@ -1,6 +1,8 @@
 from PyQt6.QtGui import QIntValidator
 from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QComboBox, QLabel, QLineEdit, \
     QGridLayout
+import PyQt6.QtCore as QtCore
+import sys
 from front.interface import ApplicationFrontInterface
 from PyQt6.QtCore import Qt
 import json
@@ -51,25 +53,13 @@ class SettingsWindow(QWidget, ApplicationFrontInterface):
         self.fullScreenButton = QPushButton()
         self.themeButton = QPushButton()
         self.applyButton = QPushButton()
+        self.restartButton = QPushButton()
         self.quitButton = QPushButton()
 
-        self.resolutionXLineEdit = QLineEdit()
-        self.resolutionXLineEdit.setValidator(QIntValidator())
-        self.resolutionXLineEdit.setMaxLength(4)
-        self.resolutionXLineEdit.setReadOnly(True)
-        self.resolutionXLineEdit.returnPressed.connect(self.resolutionLineEditOnPress)
-
-        self.resolutionYLineEdit = QLineEdit()
-        self.resolutionYLineEdit.setValidator(QIntValidator())
-        self.resolutionYLineEdit.setMaxLength(4)
-        self.resolutionYLineEdit.setReadOnly(True)
-        self.resolutionYLineEdit.returnPressed.connect(self.resolutionLineEditOnPress)
         # incomplete, needs save and link slider
 
         ApplicationFrontInterface.setObjectID(self.langComboBox, self.fullScreenButton, self.themeButton,
-                                              self.applyButton, self.quitButton, ID="optionButton")
-        ApplicationFrontInterface.setObjectID(self.resolutionXLineEdit,
-                                              self.resolutionYLineEdit, ID="resolutionLineEdit")
+                                              self.applyButton, self.restartButton, self.quitButton, ID="optionButton")
 
         self.fullScreenButton.setText(f"Fullscreen - {['Off', 'On'][self.fullScreenState]}")
         self.fullScreenButton.clicked.connect(self.fullScreenAction)
@@ -79,18 +69,20 @@ class SettingsWindow(QWidget, ApplicationFrontInterface):
         ApplicationFrontInterface.assignButtons([self.themeButton, f"Theme: {self.theme.replace('.xml', '')}",
                                                  self.themeAction],
                                                 [self.applyButton, "Apply", self.applyAction],
+                                                [self.restartButton, "Restart", self.restartAction],
                                                 [self.quitButton, "Back", self.quitAction])
 
         self.langComboBox.addItems(self.locales.keys())
         self.langComboBox.setCurrentText([i[0] for i in self.locales.items() if i[1] == self.lang][0])
+        if "dark" in self.settings["theme"] or self.settings == "default":
+            self.langComboBox.setStyleSheet("color: white;")
 
         self.gridLayout.addWidget(self.langComboBox, 0, 0)
         self.gridLayout.addWidget(self.fullScreenButton, 1, 0)
         self.gridLayout.addWidget(self.themeButton, 2, 0)
         self.gridLayout.addWidget(self.applyButton, 3, 0)
-        self.gridLayout.addWidget(self.quitButton, 4, 0)
-        self.gridLayout.addWidget(self.resolutionXLineEdit, 5, 0)
-        self.gridLayout.addWidget(self.resolutionYLineEdit, 6, 0)
+        self.gridLayout.addWidget(self.restartButton, 4, 0)
+        self.gridLayout.addWidget(self.quitButton, 5, 0)
         # layout bug
         self.topLevelLayout.addLayout(self.gridLayout)
 
@@ -101,11 +93,6 @@ class SettingsWindow(QWidget, ApplicationFrontInterface):
 
         stylesheet = ApplicationFrontInterface.readFile("front/global.qss", isJSON=False)
         self.setStyleSheet(stylesheet)
-
-    def resolutionLineEditOnPress(self):
-        self.lineEditOnFocus = not self.lineEditOnFocus
-        self.resolutionXLineEdit.setReadOnly(self.lineEditOnFocus)
-        self.resolutionYLineEdit.setReadOnly(self.lineEditOnFocus)
 
     def closeEvent(self, event):
         self.onClose = True
@@ -123,7 +110,6 @@ class SettingsWindow(QWidget, ApplicationFrontInterface):
     def themeAction(self):
         self.theme = self.ALL_THEMES[(self.ALL_THEMES.index(self.theme) + 1) % len(self.ALL_THEMES)]
         self.themeButton.setText(f"Theme: {self.theme.replace('.xml', '')}")
-        # start.py integration
 
     def applyAction(self):
         self.lang = self.locales[self.langComboBox.currentText()]
@@ -131,6 +117,11 @@ class SettingsWindow(QWidget, ApplicationFrontInterface):
         self.settings["fullscreen"] = int(self.fullScreenState)
         self.settings["theme"] = self.theme
         ApplicationFrontInterface.writeFile("back/settings.json", self.settings)
+
+    @staticmethod
+    def restartAction():
+        QtCore.QCoreApplication.quit()
+        QtCore.QProcess.startDetached(sys.executable, sys.argv)
 
     def quitAction(self):
         self.onClose = True
