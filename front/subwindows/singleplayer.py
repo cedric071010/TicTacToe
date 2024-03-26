@@ -12,6 +12,11 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
         super(SingleplayerWindow, self).__init__()
 
         self.ALL_DIFFICULTIES = ("Easy", "Normal", "Impossible", "Random")
+        self.ALL_SPEEDS = {0: "Instant",
+                           250: "Fast",
+                           500: "Normal",
+                           750: "Slow",
+                           1000: "Very Slow"}
         self.difficulty = "Random"
 
         self.firstMove = "X"
@@ -21,6 +26,7 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
         self.isLastMoveValid = True
         self.evalValue = 50
         self.didLastMoveFinish = True
+        self.delayTime = 500
 
         self.onClose = False
 
@@ -43,6 +49,7 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
         self.playAsButton = QPushButton("")
         self.winLabel = QPushButton("")
         self.toggleEvalButton = QPushButton("")
+        self.toggleSpeedButton = QPushButton("")
         self.resetButton = QPushButton("")
         self.quitButton = QPushButton("")
         self.evalBar = QProgressBar()
@@ -52,7 +59,7 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
                                               ID="gameButton")
 
         ApplicationFrontInterface.setObjectID(self.difficultyButton, self.playAsButton, self.winLabel,
-                                              self.toggleEvalButton,
+                                              self.toggleEvalButton, self.toggleSpeedButton,
                                               self.resetButton, self.quitButton,
                                               ID="optionButton")
 
@@ -69,6 +76,8 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
                                                 [self.playAsButton, f"Play as: {self.firstMove}", self.playAsAction],
                                                 [self.winLabel, "No winner yet", type],
                                                 [self.toggleEvalButton, "Toggle Eval.", self.toggleEvalAction],
+                                                [self.toggleSpeedButton, f"Speed: {self.ALL_SPEEDS[self.delayTime]}",
+                                                 self.toggleSpeedAction],
                                                 [self.resetButton, "Reset", self.resetAction],
                                                 [self.quitButton, "Quit", self.quitAction])
 
@@ -88,7 +97,8 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
         self.buttonLayout.addWidget(self.button9, 2, 2)
 
         ApplicationFrontInterface.addWidgets(self.difficultyButton, self.playAsButton, self.winLabel,
-                                             self.toggleEvalButton, self.resetButton, self.quitButton,
+                                             self.toggleEvalButton, self.toggleSpeedButton, self.resetButton,
+                                             self.quitButton,
                                              layout=self.optionLayout)
 
         self.resize(1750, 1000)
@@ -121,7 +131,7 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
                 return
 
             if self.isLastMoveValid:
-                self.botMove()
+                self.botMoveDelayTimer.start(self.delayTime)
 
     def difficultyAction(self):
         self.difficulty = self.ALL_DIFFICULTIES[(self.ALL_DIFFICULTIES.index(self.difficulty) + 1)
@@ -137,6 +147,13 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
     def toggleEvalAction(self):
         self.evalBar.show() if self.evalBar.isHidden() else self.evalBar.hide()
 
+    def toggleSpeedAction(self):
+        try:
+            self.delayTime = list(self.ALL_SPEEDS)[list(self.ALL_SPEEDS).index(self.delayTime) + 1]
+        except IndexError:
+            self.delayTime = list(self.ALL_SPEEDS)[0]
+        self.toggleSpeedButton.setText(f"Speed: {self.ALL_SPEEDS[self.delayTime]}")
+
     def resetAction(self):
         self.winningMove = False
         self.moves = 0
@@ -147,7 +164,7 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
         self.playerMove = self.firstMove
         if self.firstMove == 'O':
             self.playerMove = 'X'
-            self.botMove()
+            self.botMoveDelayTimer.start(self.delayTime)
 
     def quitAction(self):
         self.close()
