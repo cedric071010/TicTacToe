@@ -15,9 +15,8 @@ class ApplicationBackInterface:
             moves += 1
             winConditions = ((0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6), (1, 4, 7), (2, 5, 8), (0, 4, 8), (2, 4, 6))
             for condition in winConditions:
-                if allButtons[condition[0]] != "" and all(allButtons[condition[0]].text() == button.text() for button
-                                                          in (allButtons[condition[0]], allButtons[condition[1]],
-                                                              allButtons[condition[2]])):
+                if allButtons[condition[0]].text() != "" and allButtons[condition[0]].text() == \
+                        allButtons[condition[1]].text() == allButtons[condition[2]].text():
                     return allButtons[condition[0]].text(), moves
 
             if moves == 9:
