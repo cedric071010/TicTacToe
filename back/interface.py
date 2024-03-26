@@ -10,7 +10,7 @@ class ApplicationBackInterface:
         return playerMove, False
 
     @staticmethod
-    def checkWin(isLastMoveValid: bool, allButtons: tuple[PyQt6.QtWidgets.QPushButton], moves: int) \
+    def checkWin(isLastMoveValid: bool, allButtons, moves: int) \
             -> tuple[str | bool, int]:
         if isLastMoveValid:
             moves += 1
