@@ -1,5 +1,5 @@
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QGridLayout, QProgressBar
+from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QGridLayout, QProgressBar, QLabel
 from front.interface import ApplicationFrontInterface
 from back.interface import ApplicationBackInterface
 from PyQt6.QtCore import QTimer
@@ -10,6 +10,8 @@ from back.ai import RandomPlayer
 class SingleplayerWindow(QWidget, ApplicationFrontInterface):
     def __init__(self):
         super(SingleplayerWindow, self).__init__()
+
+        self.settings = ApplicationFrontInterface.readFile("back/settings.json")
 
         self.ALL_DIFFICULTIES = ("Easy", "Normal", "Impossible", "Random")
         self.ALL_SPEEDS = {0: "Instant",
@@ -95,6 +97,10 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
         self.buttonLayout.addWidget(self.button7, 2, 0)
         self.buttonLayout.addWidget(self.button8, 2, 1)
         self.buttonLayout.addWidget(self.button9, 2, 2)
+        if self.settings["theme"] != "default":
+            self.buttonLayout.addWidget(QLabel(), 3, 0)
+            self.buttonLayout.addWidget(QLabel(), 3, 1)
+            self.buttonLayout.addWidget(QLabel(), 3, 2)
 
         ApplicationFrontInterface.addWidgets(self.difficultyButton, self.playAsButton, self.winLabel,
                                              self.toggleEvalButton, self.toggleSpeedButton, self.resetButton,
