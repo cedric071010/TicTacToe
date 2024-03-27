@@ -12,6 +12,8 @@ class LocalWindow(QWidget, ApplicationFrontInterface):
 
         self.settings = ApplicationFrontInterface.readFile("back/settings.json")
 
+        self._ = ApplicationFrontInterface.translation(self.settings["lang"])
+
         self.onClose = False
 
         self.topLevelLayout = QHBoxLayout()
@@ -52,10 +54,10 @@ class LocalWindow(QWidget, ApplicationFrontInterface):
                                                 [self.button7, "", lambda: self.buttonAction(self.button7)],
                                                 [self.button8, "", lambda: self.buttonAction(self.button8)],
                                                 [self.button9, "", lambda: self.buttonAction(self.button9)],
-                                                [self.winLabel, "No winner yet", type],
-                                                [self.toggleEvalButton, "Toggle Eval.", self.toggleEvalAction],
-                                                [self.resetButton, "Reset", self.resetAction],
-                                                [self.quitButton, "Quit", self.quitAction])
+                                                [self.winLabel, self._("No winner yet"), type],
+                                                [self.toggleEvalButton, self._("Toggle Eval."), self.toggleEvalAction],
+                                                [self.resetButton, self._("Reset"), self.resetAction],
+                                                [self.quitButton, self._("Quit"), self.quitAction])
 
         self.setLayout(self.topLevelLayout)
         self.topLevelLayout.addWidget(self.evalBar)
@@ -80,7 +82,7 @@ class LocalWindow(QWidget, ApplicationFrontInterface):
                                              layout=self.optionLayout)
 
         self.resize(1750, 1000)
-        self.setWindowTitle("Tic Tac Toe Remastered - Local Mode")
+        self.setWindowTitle(self._("Tic Tac Toe Remastered - Local Mode"))
 
         with open("front/global.qss", "r") as f:
             stylesheet = str(f.read())
@@ -108,7 +110,7 @@ class LocalWindow(QWidget, ApplicationFrontInterface):
         self.winningMove, self.moves = ApplicationBackInterface.checkWin(self.isLastMoveValid, self.allButtons,
                                                                          self.moves)
         if self.winningMove:
-            self.winLabel.setText(f"{self.winningMove} wins!")
+            self.winLabel.setText(self.winningMove + " " + self._("wins!"))
 
     def toggleEvalAction(self):
         self.evalBar.show() if self.evalBar.isHidden() else self.evalBar.hide()
@@ -120,7 +122,7 @@ class LocalWindow(QWidget, ApplicationFrontInterface):
         for button in [self.button1, self.button2, self.button3, self.button4, self.button5, self.button6, self.button7,
                        self.button8, self.button9]:
             button.setText("")
-        self.winLabel.setText("No winner yet")
+        self.winLabel.setText(self._("No winner yet"))
 
     def quitAction(self):
         self.close()

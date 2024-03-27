@@ -13,13 +13,15 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
 
         self.settings = ApplicationFrontInterface.readFile("back/settings.json")
 
-        self.ALL_DIFFICULTIES = ("Easy", "Normal", "Impossible", "Random")
-        self.ALL_SPEEDS = {0: "Instant",
-                           250: "Fast",
-                           500: "Normal",
-                           750: "Slow",
-                           1000: "Very Slow"}
-        self.difficulty = "Random"
+        self._ = ApplicationFrontInterface.translation(self.settings["lang"])
+
+        self.ALL_DIFFICULTIES = (self._("Easy"), self._("Normal"), self._("Impossible"), self._("Random"))
+        self.ALL_SPEEDS = {0: self._("Instant"),
+                           250: self._("Fast"),
+                           500: self._("Normal"),
+                           750: self._("Slow"),
+                           1000: self._("Very Slow")}
+        self.difficulty = self._("Random")
 
         self.firstMove = "X"
         self.playerMove = "X"
@@ -75,13 +77,13 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
                                                 [self.button8, "", lambda: self.buttonAction(self.button8)],
                                                 [self.button9, "", lambda: self.buttonAction(self.button9)],
                                                 [self.difficultyButton, self.difficulty, self.difficultyAction],
-                                                [self.playAsButton, f"Play as: {self.firstMove}", self.playAsAction],
-                                                [self.winLabel, "No winner yet", type],
-                                                [self.toggleEvalButton, "Toggle Eval.", self.toggleEvalAction],
-                                                [self.toggleSpeedButton, f"Speed: {self.ALL_SPEEDS[self.delayTime]}",
+                                                [self.playAsButton, self._("Play as: ") + self.firstMove, self.playAsAction],
+                                                [self.winLabel, self._("No winner yet"), type],
+                                                [self.toggleEvalButton, self._("Toggle Eval."), self.toggleEvalAction],
+                                                [self.toggleSpeedButton, self._("Speed: ") + self.ALL_SPEEDS[self.delayTime],
                                                  self.toggleSpeedAction],
-                                                [self.resetButton, "Reset", self.resetAction],
-                                                [self.quitButton, "Quit", self.quitAction])
+                                                [self.resetButton, self._("Reset"), self.resetAction],
+                                                [self.quitButton, self._("Quit"), self.quitAction])
 
         self.setLayout(self.topLevelLayout)
         self.topLevelLayout.addWidget(self.evalBar)
@@ -108,7 +110,7 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
                                              layout=self.optionLayout)
 
         self.resize(1750, 1000)
-        self.setWindowTitle("Tic Tac Toe Remastered - Singleplayer")
+        self.setWindowTitle(self._("Tic Tac Toe Remastered - Singleplayer"))
 
         with open("front/global.qss", "r") as f:
             stylesheet = str(f.read())
@@ -133,7 +135,7 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
                                                                              self.moves)
 
             if self.winningMove:
-                self.winLabel.setText(f"{self.winningMove} wins!")
+                self.winLabel.setText(self.winningMove + " " + self._("wins!"))
                 return
 
             if self.isLastMoveValid:
@@ -148,7 +150,7 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
 
     def playAsAction(self):
         self.firstMove = ('X', 'O')[self.firstMove == 'X']
-        self.playAsButton.setText(f"Play as: {self.firstMove}")
+        self.playAsButton.setText(self._("Play as: ") + self.firstMove)
         self.resetAction()
 
     def toggleEvalAction(self):
@@ -157,15 +159,15 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
     def toggleSpeedAction(self):
         self.delayTime = list(self.ALL_SPEEDS)[(list(self.ALL_SPEEDS).index(self.delayTime) + 1)
                                                % len(list(self.ALL_SPEEDS))]
-        self.toggleSpeedButton.setText(f"Speed: {self.ALL_SPEEDS[self.delayTime]}")
+        self.toggleSpeedButton.setText(self._("Speed: ") + self.ALL_SPEEDS[self.delayTime])
 
     def resetAction(self):
         self.winningMove = False
         self.moves = 0
         for button in self.allButtons:
             button.setText("")
-        self.winLabel.setText("No winner yet")
-        self.playAsButton.setText(f"Play as: {self.firstMove}")
+        self.winLabel.setText(self._("No winner yet"))
+        self.playAsButton.setText(self._("Play as: ") + self.firstMove)
         self.playerMove = self.firstMove
         if self.firstMove == 'O':
             self.playerMove = 'X'
@@ -193,7 +195,7 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
             self.winningMove, self.moves = ApplicationBackInterface.checkWin(self.isLastMoveValid, self.allButtons,
                                                                              self.moves)
             if self.winningMove:
-                self.winLabel.setText(f"{self.winningMove} wins!")
+                self.winLabel.setText(self.winningMove + " " + self._("wins!"))
 
         elif self.difficulty == "Easy":
             pass

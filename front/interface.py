@@ -1,4 +1,5 @@
 import json
+import gettext
 
 
 class ApplicationFrontInterface:
@@ -48,3 +49,11 @@ class ApplicationFrontInterface:
         for widget in widgets:
             layout.addWidget(widget)
 
+    @staticmethod
+    def translation(language: str = "en"):
+        if language == "en":
+            return gettext.gettext
+
+        lang = gettext.translation("base", localedir="front/assets/locales", languages=[language])
+        lang.install()
+        return lang.gettext
