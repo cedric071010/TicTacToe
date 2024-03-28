@@ -1,9 +1,8 @@
 import sys
 import os
 
-args = sys.argv
-# example.py en
+locale = sys.argv[1]
+# en
 
-os.system(f"/Library/Frameworks/Python.framework/Versions/3.10/share/doc/python3.10/examples/Tools/i18n/pygettext.py "
-          f"-d base -o ./front/assets/locales/{args[1]}/LC_MESSAGES/base.po {args[0]}")
+os.system(f"lib/i18n/pygettext.py -d base -o ./front/assets/locales/{locale}/LC_MESSAGES/base.po")
 
