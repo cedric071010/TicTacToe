@@ -138,3 +138,5 @@ msgstr "重启"
 msgid "Tic Tac Toe Remastered - Settings"
 msgstr "井字棋重制版 - 设置"
 
+msgid "Tic Tac Toe Remastered - Confirm Quit"
+msgstr "井字棋重制版 - 确认退出"

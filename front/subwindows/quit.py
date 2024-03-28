@@ -7,6 +7,9 @@ class QuitWindow(QWidget, ApplicationFrontInterface):
     def __init__(self):
         super(QuitWindow, self).__init__()
 
+        self.settings = ApplicationFrontInterface.readFile("back/settings.json")
+        self._ = ApplicationFrontInterface.translation(self.settings["lang"])
+
         self.onClose = False
 
         self.layout = QHBoxLayout()
@@ -15,8 +18,8 @@ class QuitWindow(QWidget, ApplicationFrontInterface):
         self.backButton = QPushButton()
         self.backButton.setObjectName("optionButton")
 
-        self.quitButton.setText("Quit")
-        self.backButton.setText("Back")
+        self.quitButton.setText(self._("Quit"))
+        self.backButton.setText(self._("Back"))
         self.quitButton.clicked.connect(quit)
         self.backButton.clicked.connect(self.close)
 
@@ -25,7 +28,7 @@ class QuitWindow(QWidget, ApplicationFrontInterface):
         self.setLayout(self.layout)
 
         self.resize(1750, 1000)
-        self.setWindowTitle("Tic Tac Toe Remastered - Confirm Quit")
+        self.setWindowTitle(self._("Tic Tac Toe Remastered - Confirm Quit"))
 
         with open("front/global.qss", "r") as f:
             stylesheet = str(f.read())
