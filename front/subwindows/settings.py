@@ -46,8 +46,6 @@ class SettingsWindow(QWidget, ApplicationFrontInterface):
         self.fullScreenState = self.settings["fullscreen"]
         self.theme = self.settings["theme"]
 
-        self.lineEditOnFocus = False
-
         self.topLevelLayout = QHBoxLayout()
         self.layout = QVBoxLayout()
         self.gridLayout = QGridLayout()
