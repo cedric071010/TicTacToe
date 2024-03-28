@@ -1,12 +1,7 @@
-from PyQt6.QtGui import QIntValidator
-from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QComboBox, QLabel, QLineEdit, \
-    QGridLayout
+from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QComboBox, QGridLayout
 import PyQt6.QtCore as QtCore
 import sys
 from front.interface import ApplicationFrontInterface
-from PyQt6.QtCore import Qt
-import json
-from time import sleep
 
 
 class SettingsWindow(QWidget, ApplicationFrontInterface):
@@ -36,15 +31,15 @@ class SettingsWindow(QWidget, ApplicationFrontInterface):
 
         self.settingsFile = None
 
-        self.locales = ApplicationFrontInterface.readFile("front/assets/lang/locales.json")
+        self.locales = ApplicationFrontInterface.readFile("front/assets/locales/locales.json")
         self.settings = ApplicationFrontInterface.readFile("back/settings.json")
+
+        self._ = ApplicationFrontInterface.translation(self.settings["lang"])
 
         self.onClose = False
         self.lang = self.settings["lang"]
         self.fullScreenState = self.settings["fullscreen"]
         self.theme = self.settings["theme"]
-
-        self.lineEditOnFocus = False
 
         self.topLevelLayout = QHBoxLayout()
         self.layout = QVBoxLayout()
@@ -61,16 +56,18 @@ class SettingsWindow(QWidget, ApplicationFrontInterface):
         ApplicationFrontInterface.setObjectID(self.langComboBox, self.fullScreenButton, self.themeButton,
                                               self.applyButton, self.restartButton, self.quitButton, ID="optionButton")
 
-        self.fullScreenButton.setText(f"Fullscreen - {['Off', 'On'][self.fullScreenState]}")
+        self.fullScreenButton.setText(f"{self._('Fullscreen')} - "
+                                      f"{[self._('Off'), self._('On')][self._(self.fullScreenState)]}")
         self.fullScreenButton.clicked.connect(self.fullScreenAction)
         if self.fullScreenState:
             self.showFullScreen()
 
-        ApplicationFrontInterface.assignButtons([self.themeButton, f"Theme: {self.theme.replace('.xml', '')}",
+        ApplicationFrontInterface.assignButtons([self.themeButton, f"{self._('Theme')}: "
+                                                                   f"{self.theme.replace('.xml', '')}",
                                                  self.themeAction],
-                                                [self.applyButton, "Apply", self.applyAction],
-                                                [self.restartButton, "Restart", self.restartAction],
-                                                [self.quitButton, "Back", self.quitAction])
+                                                [self.applyButton, self._("Apply"), self.applyAction],
+                                                [self.restartButton, self._("Restart"), self.restartAction],
+                                                [self.quitButton, self._("Back"), self.quitAction])
 
         self.langComboBox.addItems(self.locales.keys())
         self.langComboBox.setCurrentText([i[0] for i in self.locales.items() if i[1] == self.lang][0])
@@ -89,7 +86,7 @@ class SettingsWindow(QWidget, ApplicationFrontInterface):
         self.setLayout(self.topLevelLayout)
 
         self.resize(1440, 900)
-        self.setWindowTitle("Tic Tac Toe Remastered - Settings")
+        self.setWindowTitle(self._("Tic Tac Toe Remastered - Settings"))
 
         stylesheet = ApplicationFrontInterface.readFile("front/global.qss", isJSON=False)
         self.setStyleSheet(stylesheet)
@@ -102,14 +99,14 @@ class SettingsWindow(QWidget, ApplicationFrontInterface):
         self.fullScreenState = not self.fullScreenState
         if self.fullScreenState:
             self.showFullScreen()
-            self.fullScreenButton.setText("Fullscreen - On")
+            self.fullScreenButton.setText(f"{self._('Fullscreen')} - {self._('On')}")
         else:
             self.showNormal()
-            self.fullScreenButton.setText("Fullscreen - Off")
+            self.fullScreenButton.setText(f"{self._('Fullscreen')} - {self._('Off')}")
 
     def themeAction(self):
         self.theme = self.ALL_THEMES[(self.ALL_THEMES.index(self.theme) + 1) % len(self.ALL_THEMES)]
-        self.themeButton.setText(f"Theme: {self.theme.replace('.xml', '')}")
+        self.themeButton.setText(f"{self._('Theme')}: {self.theme.replace('.xml', '')}")
 
     def applyAction(self):
         self.lang = self.locales[self.langComboBox.currentText()]

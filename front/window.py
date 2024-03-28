@@ -13,8 +13,9 @@ class MainWindow(QMainWindow, ApplicationFrontInterface):
 
         self.settings = ApplicationFrontInterface.readFile("back/settings.json")
 
-        self.lang = None
+        self.lang = self.settings["lang"]
         self.fullScreenState = None
+        self._ = ApplicationFrontInterface.translation(self.lang)
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.updateSettings)
@@ -49,7 +50,7 @@ class MainWindow(QMainWindow, ApplicationFrontInterface):
                                               ID="gameButton")
 
         # window level configs
-        self.setWindowTitle("Tic Tac Toe Remastered")
+        self.setWindowTitle(self._("Tic Tac Toe Remastered"))
         self.resize(1440, 900)
         self.centralWidget = QWidget()
         self.setCentralWidget(self.centralWidget)
@@ -82,13 +83,14 @@ class MainWindow(QMainWindow, ApplicationFrontInterface):
 
     def createGUI(self):
         # link buttons with their functions
-        ApplicationFrontInterface.assignButtons([self.singleplayerButton, "Singleplayer", self.singleplayerAction],
-                                                [self.multiplayerButton, "Multiplayer", self.multiplayerAction],
-                                                [self.playUntilWinButton, "Play Until Win", self.playUntilWinAction],
-                                                [self.historyButton, "History", self.historyAction],
-                                                [self.achievementButton, "Achievements", self.achievementAction],
-                                                [self.settingsButton, "Settings", self.settingsAction],
-                                                [self.quitButton, "Quit", self.quitAction])
+        ApplicationFrontInterface.assignButtons(
+            [self.singleplayerButton, self._("Singleplayer"), self.singleplayerAction],
+            [self.multiplayerButton, self._("Multiplayer"), self.multiplayerAction],
+            [self.playUntilWinButton, self._("Play Until Win"), self.playUntilWinAction],
+            [self.historyButton, self._("History"), self.historyAction],
+            [self.achievementButton, self._("Achievements"), self.achievementAction],
+            [self.settingsButton, self._("Settings"), self.settingsAction],
+            [self.quitButton, self._("Quit"), self.quitAction])
 
         # add widgets to layout
         ApplicationFrontInterface.addWidgets(self.singleplayerButton, self.multiplayerButton,

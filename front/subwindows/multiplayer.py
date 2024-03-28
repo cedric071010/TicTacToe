@@ -10,6 +10,8 @@ class MultiplayerWindow(QWidget, ApplicationFrontInterface):
 
         self.settings = ApplicationFrontInterface.readFile("back/settings.json")
 
+        self._ = ApplicationFrontInterface.translation(self.settings["lang"])
+
         self.onClose = False
 
         self.layout = QGridLayout()
@@ -29,13 +31,13 @@ class MultiplayerWindow(QWidget, ApplicationFrontInterface):
 
         self.setLayout(self.layout)
 
-        ApplicationFrontInterface.assignButtons([self.localButton, "Local Mode", self.localAction],
-                                                [self.LANButton, "LAN Mode", self.LANAction],
-                                                [self.onlineButton, "Online Mode", self.onlineAction],
-                                                [self.quitButton, "Back", self.quitAction])
+        ApplicationFrontInterface.assignButtons([self.localButton, self._("Local Mode"), self.localAction],
+                                                [self.LANButton, self._("LAN Mode"), self.LANAction],
+                                                [self.onlineButton, self._("Online Mode"), self.onlineAction],
+                                                [self.quitButton, self._("Back"), self.quitAction])
 
         self.resize(1750, 1000)
-        self.setWindowTitle("Tic Tac Toe Remastered - Multiplayer")
+        self.setWindowTitle(self._("Tic Tac Toe Remastered - Multiplayer"))
 
         with open("front/global.qss", "r") as f:
             stylesheet = str(f.read())
