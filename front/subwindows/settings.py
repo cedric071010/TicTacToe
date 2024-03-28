@@ -1,12 +1,7 @@
-from PyQt6.QtGui import QIntValidator
-from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QComboBox, QLabel, QLineEdit, \
-    QGridLayout
+from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QComboBox, QGridLayout
 import PyQt6.QtCore as QtCore
 import sys
 from front.interface import ApplicationFrontInterface
-from PyQt6.QtCore import Qt
-import json
-from time import sleep
 
 
 class SettingsWindow(QWidget, ApplicationFrontInterface):
