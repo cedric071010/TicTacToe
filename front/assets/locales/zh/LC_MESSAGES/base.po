@@ -90,6 +90,9 @@ msgstr "退出"
 msgid "Tic Tac Toe Remastered - Singleplayer"
 msgstr "井字棋重制版 - 单人游戏"
 
+msgid "No one"
+msgstr "无人"
+
 msgid "wins!"
 msgstr "赢了!"
 

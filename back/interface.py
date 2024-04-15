@@ -21,6 +21,6 @@ class ApplicationBackInterface:
                     return allButtons[condition[0]].text(), moves
 
             if moves == 9:
-                return "No one", moves
+                return "", 9
 
         return False, moves

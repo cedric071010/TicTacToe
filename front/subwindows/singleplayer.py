@@ -138,6 +138,10 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
                 self.winLabel.setText(self.winningMove + " " + self._("wins!"))
                 return
 
+            elif self.moves == 9:
+                self.winLabel.setText(self._("No one") + " " + self._("wins!"))
+                return
+
             if self.isLastMoveValid:
                 self.didLastMoveFinish = False
                 self.botMoveDelayTimer.start(self.delayTime)
@@ -188,7 +192,7 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
         self.evalBar.setValue(self.evalValue)
 
     def botMove(self):
-        if self.difficulty == "Random":
+        if self.difficulty == self._("Random"):
             pos = RandomPlayer.make_random_move(self.getBoard())
             self.allButtons[pos].setText(self.playerMove)
             self.playerMove = ('X', 'O')[self.playerMove == 'X']
@@ -196,6 +200,9 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
                                                                              self.moves)
             if self.winningMove:
                 self.winLabel.setText(self.winningMove + " " + self._("wins!"))
+
+            elif self.moves == 9:
+                self.winLabel.setText(self._("No one") + " " + self._("wins!"))
 
         elif self.difficulty == "Easy":
             pass
