@@ -23,3 +23,6 @@ not yet
     1. online mode?
     3. close main window after opening subwindow? TECHNICAL DIFFICULTIES: QWidget doesn't show or QMainWindow inheritance shows blank
     4. screen resolution settings
+
+bugs
+
