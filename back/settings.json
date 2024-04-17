@@ -1,5 +1,6 @@
 {
   "lang": "zh",
   "fullscreen": 0,
-  "theme": "dark_teal.xml"
+  "theme": "dark_teal.xml",
+  "recordhistory": 1
 }
