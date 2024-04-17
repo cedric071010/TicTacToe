@@ -10,20 +10,20 @@ class Game:
             # simple ui for testing
         else:
             print("Invalid")
-        
+
     def check_win(self):
-            win_conditions = [(0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6), (1, 4, 7), (2, 5, 8), (0, 4, 8), (2, 4, 6)]
-            for condition in win_conditions:
-                if self.board[condition[0]] == self.board[condition[1]] == self.board[condition[2]] != '0':
-                    return True
-            return False
-    
+        win_conditions = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
+        for condition in win_conditions:
+            if self.board[condition[0]] == self.board[condition[1]] == self.board[condition[2]] != '0':
+                return True
+        return False
+
     def check_draw(self):
         return '0' not in self.board
 
     # simple ui for testing
     def print_board(self):
-            print(''.join(self.board) + '>')
+        print(''.join(self.board))
 
     def play(self):
         while True:
@@ -34,10 +34,9 @@ class Game:
                 print("Invalid")
                 # user input here is 1 to 9 instead of 0 to 8 for easy testing
                 # use 0 to 8 when connecting to UI
-                position = int(input()-1)
+                position = int(input() - 1)
             self.make_move(position)
             if self.check_win():
                 # simple ui for testing
                 print("Player " + ('2' if self.current_player == '1' else '1') + " win")
                 break
-            
