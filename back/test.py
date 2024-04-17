@@ -3,14 +3,19 @@ from ai import RandomPlayer
 
 def main():
     game_play = Game()
-    random_player = RandomPlayer()
+    player1 = RandomPlayer()
+    player2 = RandomPlayer()
 
 
     while not game_play.check_win():
         if not game_play.check_draw():
-            position = random_player.make_random_move(game_play.board)
+            position = player1.make_random_move(game_play.board)
             game_play.make_move(position)
             game_play.print_board()
+            if not game_play.check_win():
+                position = player2.make_random_move(game_play.board)
+                game_play.make_move(position)
+                game_play.print_board()
         else:
             print("draw")
             break
