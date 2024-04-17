@@ -21,22 +21,8 @@ class Game:
     def check_draw(self):
         return '0' not in self.board
 
-    # simple ui for testing
-    def print_board(self):
-        print(''.join(self.board))
-
     def play(self):
         while True:
             self.print_board()
-            position = int(input()) - 1
-            while position < 0 or position > 8:
-                # simple ui for testing
-                print("Invalid")
-                # user input here is 1 to 9 instead of 0 to 8 for easy testing
-                # use 0 to 8 when connecting to UI
-                position = int(input() - 1)
+            position = int(input())
             self.make_move(position)
-            if self.check_win():
-                # simple ui for testing
-                print("Player " + ('2' if self.current_player == '1' else '1') + " win")
-                break
