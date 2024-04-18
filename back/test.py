@@ -8,7 +8,7 @@ from front.interface import ApplicationFrontInterface
 def main():
     game_play = Game()
     player1 = player.Data
-    player2 = player.RandomPlayer
+    player2 = player.Random
     history = []
 
     while not game_play.check_win():
