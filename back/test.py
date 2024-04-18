@@ -1,5 +1,5 @@
 from game import Game
-import ai
+import player
 import copy
 import json
 import time
