@@ -2,6 +2,8 @@ from game import Game
 from ai import RandomPlayer
 import copy
 import json
+import time
+from front.interface import ApplicationFrontInterface
 
 def main():
     game_play = Game()
@@ -18,7 +20,7 @@ def main():
             history.append(board)
             print(board)
 
-            if not game_play.check_win():
+            if not game_play.check_win() and 0 in game_play.board:
                 position = player2.make_random_move(game_play.board)
                 game_play.make_move(position)
 
@@ -33,12 +35,12 @@ def main():
     if game_play.check_win():
         winner = 'Player 2' if game_play.current_player == '1' else 'Player 1'
         print(f"{winner} wins")
-
+    history = {time.asctime(): history}
     print(history)
-    with open("history.json", "r") as json_file:
-        existing_history = json.load(json_file)
-    with open("history.json", "w") as json_file:
-        json.dump(existing_history + history, json_file)
+
+    existing_history = ApplicationFrontInterface.readFile("history.json")
+    existing_history.update(history)
+    ApplicationFrontInterface.writeFile("history.json", existing_history)
 
 if __name__ == "__main__":
     main()
