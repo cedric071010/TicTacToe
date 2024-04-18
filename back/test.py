@@ -1,5 +1,5 @@
 from game import Game
-from ai import RandomPlayer
+import ai
 import copy
 import json
 import time
@@ -7,8 +7,8 @@ from front.interface import ApplicationFrontInterface
 
 def main():
     game_play = Game()
-    player1 = RandomPlayer()
-    player2 = RandomPlayer()
+    player1 = ai.Data
+    player2 = ai.RandomPlayer
     history = []
 
     while not game_play.check_win():
