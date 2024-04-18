@@ -13,7 +13,12 @@ class ApplicationFrontInterface:
         """
 
         with open(filePath, "r") as f:
-            return json.loads(f.read()) if isJSON else f.read()
+            if isJSON:
+                if f.read() in {"", "null"}:
+                    return {}
+                print(f.read())
+                return json.loads(f.read())
+            return f.read()
 
     @staticmethod
     def writeFile(filePath: str, msg: dict | str, isJSON: bool = True, indent: int = 2) -> None:
