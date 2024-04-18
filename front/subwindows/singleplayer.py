@@ -186,7 +186,7 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
         self.evalValue += 1
         if self.evalValue > 100:
             self.evalValue = 50
-            if not randint(0, 1):
+            if randint(0, 1):
                 self.evalValue = 0
 
         self.evalBar.setValue(self.evalValue)
@@ -204,13 +204,13 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
             elif self.moves == 9:
                 self.winLabel.setText(self._("No one") + " " + self._("wins!"))
 
-        elif self.difficulty == "Easy":
+        elif self.difficulty == self._("Easy"):
             pass
 
-        elif self.difficulty == "Normal":
+        elif self.difficulty == self._("Normal"):
             pass
 
-        elif self.difficulty == "Impossible":
+        elif self.difficulty == self._("Impossible"):
             pass
         self.didLastMoveFinish = True
 
