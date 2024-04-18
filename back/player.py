@@ -32,7 +32,7 @@ class Data:
     def make_move(board):
         #player1
         if board == [ '0', '0', '0', '0', '0', '0', '0', '0', '0' ]:
-
+            pass
 
         #player2
 #doing
