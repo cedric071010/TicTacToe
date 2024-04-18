@@ -4,7 +4,7 @@ from front.interface import ApplicationFrontInterface
 from back.interface import ApplicationBackInterface
 from PyQt6.QtCore import QTimer
 from random import randint
-from back.ai import RandomPlayer
+from back.player import Random
 
 
 class SingleplayerWindow(QWidget, ApplicationFrontInterface):
@@ -193,7 +193,7 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
 
     def botMove(self):
         if self.difficulty == self._("Random"):
-            pos = RandomPlayer.make_random_move(self.getBoard())
+            pos = Random.make_random_move(self.getBoard())
             self.allButtons[pos].setText(self.playerMove)
             self.playerMove = ('X', 'O')[self.playerMove == 'X']
             self.winningMove, self.moves = ApplicationBackInterface.checkWin(self.isLastMoveValid, self.allButtons,
