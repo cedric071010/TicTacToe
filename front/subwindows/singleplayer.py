@@ -4,7 +4,7 @@ from front.interface import ApplicationFrontInterface
 from back.interface import ApplicationBackInterface
 from PyQt6.QtCore import QTimer
 from random import randint
-from back.ai import RandomPlayer
+from back.player import Random
 
 
 class SingleplayerWindow(QWidget, ApplicationFrontInterface):
@@ -186,14 +186,14 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
         self.evalValue += 1
         if self.evalValue > 100:
             self.evalValue = 50
-            if not randint(0, 1):
+            if randint(0, 1):
                 self.evalValue = 0
 
         self.evalBar.setValue(self.evalValue)
 
     def botMove(self):
         if self.difficulty == self._("Random"):
-            pos = RandomPlayer.make_random_move(self.getBoard())
+            pos = Random.make_random_move(self.getBoard())
             self.allButtons[pos].setText(self.playerMove)
             self.playerMove = ('X', 'O')[self.playerMove == 'X']
             self.winningMove, self.moves = ApplicationBackInterface.checkWin(self.isLastMoveValid, self.allButtons,
@@ -204,13 +204,13 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
             elif self.moves == 9:
                 self.winLabel.setText(self._("No one") + " " + self._("wins!"))
 
-        elif self.difficulty == "Easy":
+        elif self.difficulty == self._("Easy"):
             pass
 
-        elif self.difficulty == "Normal":
+        elif self.difficulty == self._("Normal"):
             pass
 
-        elif self.difficulty == "Impossible":
+        elif self.difficulty == self._("Impossible"):
             pass
         self.didLastMoveFinish = True
 

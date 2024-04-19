@@ -1,6 +1,7 @@
 import random
 
-class RandomPlayer:
+
+class Random:
     def __init__(self):
         self.name = "Random Player"
 
@@ -22,3 +23,16 @@ class Human:
             print(move + " is not available")
             move = input("enter your move> ")
         return int(move)
+
+class Data:
+    def __init__(self):
+        self.name = "Data Player"
+
+    @staticmethod
+    def make_move(board):
+        #player1
+        if board == [ '0', '0', '0', '0', '0', '0', '0', '0', '0' ]:
+            pass
+
+        #player2
+#doing

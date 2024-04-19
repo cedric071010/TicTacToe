@@ -1,5 +1,7 @@
-from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout
+import PyQt6
+from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QLabel, QVBoxLayout, QFrame, QScrollArea, QSizePolicy
 from front.interface import ApplicationFrontInterface
+from PyQt6.QtCore import Qt
 
 
 class HistoryWindow(QWidget, ApplicationFrontInterface):
@@ -8,14 +10,26 @@ class HistoryWindow(QWidget, ApplicationFrontInterface):
 
         self.onClose = False
 
-        self.layout = QHBoxLayout()
-        self.labelButton = QPushButton()
-        self.labelButton.setObjectName("optionButton")
+        self.topLevelLayout = QVBoxLayout()
+        self.gameHistoryLayout = QVBoxLayout()
+        self.frames = []
 
-        self.labelButton.setText("Hello World")
+        self.container = QWidget()
+        self.scroll = QScrollArea()
+        self.scroll.setWidget(self.container)
+        self.scroll.setWidgetResizable(True)
+        self.container.setLayout(self.gameHistoryLayout)
 
-        self.layout.addWidget(self.labelButton)
-        self.setLayout(self.layout)
+        n = 10
+        for i in range(n):
+            self.frames.append(QFrame())
+            self.frames[i].resize(300, 300)
+            self.gameHistoryLayout.addWidget(self.frames[i])
+            self.frames[i].setMinimumSize(1000, 100)
+            self.frames[i].setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+
+        self.topLevelLayout.addWidget(self.scroll)
+        self.setLayout(self.topLevelLayout)
 
         self.resize(1750, 1000)
         self.setWindowTitle("Tic Tac Toe Remastered - History")
