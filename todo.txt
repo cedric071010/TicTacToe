@@ -26,3 +26,5 @@ not yet
 
 bugs
 
+1/2 in viewHistory
+
