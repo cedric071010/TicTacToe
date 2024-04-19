@@ -2,6 +2,7 @@ import PyQt6
 from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QLabel, QVBoxLayout, QFrame, QScrollArea, QSizePolicy
 from front.interface import ApplicationFrontInterface
 from PyQt6.QtCore import Qt
+from front.subwindows import viewHistory, templateClass
 
 
 class HistoryWindow(QWidget, ApplicationFrontInterface):
@@ -10,9 +11,16 @@ class HistoryWindow(QWidget, ApplicationFrontInterface):
 
         self.onClose = False
 
+        self.w = templateClass.TemplateClass()
+
         self.topLevelLayout = QVBoxLayout()
         self.gameHistoryLayout = QVBoxLayout()
+        self.label1 = QLabel("hello world")
         self.frames = []
+        self.layouts = []
+        self.labels = []
+        self.buttons = []
+        self.history = ApplicationFrontInterface.readFile("back/history.json")
 
         self.container = QWidget()
         self.scroll = QScrollArea()
@@ -20,10 +28,21 @@ class HistoryWindow(QWidget, ApplicationFrontInterface):
         self.scroll.setWidgetResizable(True)
         self.container.setLayout(self.gameHistoryLayout)
 
-        n = 10
-        for i in range(n):
+        for i in range(len(self.history)):
             self.frames.append(QFrame())
+            self.layouts.append(QVBoxLayout())
+            self.labels.append(QLabel())
+            self.buttons.append(QPushButton())
+
+            self.labels[i].setText(list(self.history.keys())[i])
+            ApplicationFrontInterface.assignButtons([self.buttons[i], "✓",
+                                                     lambda _: self.openHistoryWindow(list(self.history.keys())[i])])
+
             self.frames[i].resize(300, 300)
+            self.layouts[i].addWidget(self.labels[i])
+            self.layouts[i].addWidget(self.buttons[i])
+            self.frames[i].setLayout(self.layouts[i])
+
             self.gameHistoryLayout.addWidget(self.frames[i])
             self.frames[i].setMinimumSize(1000, 100)
             self.frames[i].setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
@@ -41,6 +60,11 @@ class HistoryWindow(QWidget, ApplicationFrontInterface):
     def closeEvent(self, event):
         self.onClose = True
         self.close()
+
+    def openHistoryWindow(self, gameTime):
+        if self.w.onClose:
+            self.w = viewHistory.HistoryWindow(gameTime)
+            self.w.show()
 
 
 if __name__ == "__main__":

@@ -15,6 +15,11 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
 
         self._ = ApplicationFrontInterface.translation(self.settings["lang"])
 
+        self.existingHistory = ApplicationFrontInterface.readFile("back/history.json")
+        self.history = dict()
+        self.history["X"] = ["", 0]
+        self.history["O"] = ["", 0]
+
         self.ALL_DIFFICULTIES = (self._("Easy"), self._("Normal"), self._("Impossible"), self._("Random"))
         self.ALL_SPEEDS = {0: self._("Instant"),
                            250: self._("Fast"),
@@ -193,7 +198,7 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
 
     def botMove(self):
         if self.difficulty == self._("Random"):
-            pos = Random.make_random_move(self.getBoard())
+            pos = Random.make_move(self.getBoard())
             self.allButtons[pos].setText(self.playerMove)
             self.playerMove = ('X', 'O')[self.playerMove == 'X']
             self.winningMove, self.moves = ApplicationBackInterface.checkWin(self.isLastMoveValid, self.allButtons,
@@ -221,3 +226,10 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
 
 if __name__ == "__main__":
     pass
+
+"""
+ml  68 71 67 59 55 53
+ran 14 18 18 35 36 38
+dr  18 11 15 6  9  9
+p   1  0  0  0  0  0
+"""
