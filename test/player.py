@@ -32,7 +32,13 @@ class ML:
         #predict the best integer given a list of 9 integers
         integers = np.array(board).reshape(1, -1)  # Reshape input for prediction
         prediction = classifier.predict(integers)
-        return prediction[0]
+
+        available_positions = [i for i, cell in enumerate(board) if cell == '0']
+        print("available positions are " + str(available_positions))
+        if prediction[0] in available_positions:
+            return prediction[0]
+        else:
+            return random.choice(available_positions)
 
 
 class Random:
