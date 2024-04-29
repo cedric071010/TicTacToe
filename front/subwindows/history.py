@@ -34,9 +34,12 @@ class HistoryWindow(QWidget, ApplicationFrontInterface):
             self.labels.append(QLabel())
             self.buttons.append(QPushButton())
 
-            self.labels[i].setText(list(self.history.keys())[i])
+            self.labels[i].setText(f"{list(self.history.keys())[i]}, X: {self.history[list(self.history.keys())[i]][0]['X'][0]}, O: {self.history[list(self.history.keys())[i]][1]['O'][0]}")
+
             ApplicationFrontInterface.assignButtons([self.buttons[i], "✓",
-                                                     lambda _: self.openHistoryWindow(list(self.history.keys())[i])])
+                                                     lambda button=self.buttons[i],
+                                                     gameTime=list(self.history.keys())[i]:
+                                                     self.openHistoryWindow(gameTime)])
 
             self.frames[i].resize(300, 300)
             self.layouts[i].addWidget(self.labels[i])

@@ -5,6 +5,7 @@ from back.interface import ApplicationBackInterface
 from PyQt6.QtCore import QTimer
 from random import randint
 from back.player import Random
+import time
 
 
 class SingleplayerWindow(QWidget, ApplicationFrontInterface):
@@ -15,10 +16,7 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
 
         self._ = ApplicationFrontInterface.translation(self.settings["lang"])
 
-        self.existingHistory = ApplicationFrontInterface.readFile("back/history.json")
-        self.history = dict()
-        self.history["X"] = ["", 0]
-        self.history["O"] = ["", 0]
+        self.history = []
 
         self.ALL_DIFFICULTIES = (self._("Easy"), self._("Normal"), self._("Impossible"), self._("Random"))
         self.ALL_SPEEDS = {0: self._("Instant"),
@@ -36,6 +34,7 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
         self.evalValue = 50
         self.didLastMoveFinish = True
         self.delayTime = 500
+        self.gameTime = ""
 
         self.onClose = False
 
@@ -82,10 +81,12 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
                                                 [self.button8, "", lambda: self.buttonAction(self.button8)],
                                                 [self.button9, "", lambda: self.buttonAction(self.button9)],
                                                 [self.difficultyButton, self.difficulty, self.difficultyAction],
-                                                [self.playAsButton, self._("Play as: ") + self.firstMove, self.playAsAction],
+                                                [self.playAsButton, self._("Play as: ") + self.firstMove,
+                                                 self.playAsAction],
                                                 [self.winLabel, self._("No winner yet"), type],
                                                 [self.toggleEvalButton, self._("Toggle Eval."), self.toggleEvalAction],
-                                                [self.toggleSpeedButton, self._("Speed: ") + self.ALL_SPEEDS[self.delayTime],
+                                                [self.toggleSpeedButton,
+                                                 self._("Speed: ") + self.ALL_SPEEDS[self.delayTime],
                                                  self.toggleSpeedAction],
                                                 [self.resetButton, self._("Reset"), self.resetAction],
                                                 [self.quitButton, self._("Quit"), self.quitAction])
@@ -139,15 +140,41 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
             self.winningMove, self.moves = ApplicationBackInterface.checkWin(self.isLastMoveValid, self.allButtons,
                                                                              self.moves)
 
+            if not self.isLastMoveValid:
+                return
+
+            # history section
+            if self.moves == 1:
+                if self.firstMove == "X":
+                    self.history = ApplicationBackInterface.initHistory("Player", f"Bot - {self.difficulty}")
+                else:
+                    self.history = ApplicationBackInterface.initHistory(f"Bot - {self.difficulty}", "Player")
+
+            self.history.append(self.getBoard())
+
             if self.winningMove:
+                # history section
+                self.history[0]["X"][1] = str(int(self.winningMove == "X"))
+                self.history[1]["O"][1] = str(int(self.winningMove == "O"))
+                ApplicationBackInterface.saveHistory(self.history, self.gameTime)
+
                 self.winLabel.setText(self.winningMove + " " + self._("wins!"))
                 return
 
+            elif self.moves == 1:
+                self.gameTime = time.asctime()
+
             elif self.moves == 9:
+                # history section
+                self.history[0]["X"][1] = "1/2"
+                self.history[1]["O"][1] = "1/2"
+                ApplicationBackInterface.saveHistory(self.history, self.gameTime)
+
                 self.winLabel.setText(self._("No one") + " " + self._("wins!"))
                 return
 
             if self.isLastMoveValid:
+
                 self.didLastMoveFinish = False
                 self.botMoveDelayTimer.start(self.delayTime)
 
@@ -183,6 +210,9 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
             self.didLastMoveFinish = False
             self.botMoveDelayTimer.start(self.delayTime)
 
+        self.gameTime = ""
+        self.history = []
+
     def quitAction(self):
         self.close()
 
@@ -203,10 +233,31 @@ class SingleplayerWindow(QWidget, ApplicationFrontInterface):
             self.playerMove = ('X', 'O')[self.playerMove == 'X']
             self.winningMove, self.moves = ApplicationBackInterface.checkWin(self.isLastMoveValid, self.allButtons,
                                                                              self.moves)
+
+            if self.moves == 1:
+                self.gameTime = time.asctime()
+                if self.firstMove == "X":
+                    self.history = ApplicationBackInterface.initHistory("Player", f"Bot - {self.difficulty}")
+                else:
+                    self.history = ApplicationBackInterface.initHistory(f"Bot - {self.difficulty}", "Player")
+
+            # history section
+            self.history.append(self.getBoard())
+
             if self.winningMove:
+                # history section
+                self.history[0]["X"][1] = str(int(self.winningMove == "X"))
+                self.history[1]["O"][1] = str(int(self.winningMove == "O"))
+                ApplicationBackInterface.saveHistory(self.history, self.gameTime)
+
                 self.winLabel.setText(self.winningMove + " " + self._("wins!"))
 
             elif self.moves == 9:
+                # history section
+                self.history[0]["X"][1] = "1/2"
+                self.history[1]["O"][1] = "1/2"
+                ApplicationBackInterface.saveHistory(self.history, self.gameTime)
+
                 self.winLabel.setText(self._("No one") + " " + self._("wins!"))
 
         elif self.difficulty == self._("Easy"):

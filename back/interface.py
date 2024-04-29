@@ -1,5 +1,7 @@
 import PyQt6.QtWidgets
 
+import front.interface
+
 
 class ApplicationBackInterface:
     @staticmethod
@@ -24,3 +26,13 @@ class ApplicationBackInterface:
                 return "", 9
 
         return False, moves
+
+    @staticmethod
+    def initHistory(player1: str, player2: str):
+        return [{"X": [player1, "0"]}, {"O": [player2, "0"]}]
+
+    @staticmethod
+    def saveHistory(history, gameTime):
+        allHistory = front.interface.ApplicationFrontInterface.readFile("back/history.json")
+        allHistory[gameTime] = history
+        front.interface.ApplicationFrontInterface.writeFile("back/history.json", allHistory)

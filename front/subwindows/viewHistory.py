@@ -18,11 +18,14 @@ class HistoryWindow(QWidget, ApplicationFrontInterface):
 
         self.onClose = False
 
-        self.gameHistory = ApplicationFrontInterface.readFile("back/settingsTemplate.json")[self.gameTime]
+        self.gameHistory = ApplicationFrontInterface.readFile("back/history.json")[self.gameTime]
         self.gameHistory[0].update(self.gameHistory[1])
         self.playerInfo = self.gameHistory[0]
         self.gameHistory = self.gameHistory[2:]
-        self.winMessage = f"{self.playerInfo['X'][0] if self.playerInfo['X'][1] else self.playerInfo['O'][0]} wins!"
+        if self.playerInfo['X'][1] == "1/2":
+            self.winMessage = "No one wins!"
+        else:
+            self.winMessage = f"{self.playerInfo['X'][0] if int(self.playerInfo['X'][1]) else self.playerInfo['O'][0]} wins!"
         self.totalMoves = len(self.gameHistory)
         self.moves = -1
 
