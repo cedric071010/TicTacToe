@@ -2,16 +2,7 @@ import random
 import numpy as np
 from sklearn.tree import DecisionTreeClassifier
 
-
-class ML:
-    def __init__(self):
-        self.name = "ML Player"
-
-    @staticmethod
-    def make_move(board):
-        # Define the training data
-        X_train = np.array([
-
+x_base = [
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [1, 0, 0, 0, 0, 0, 0, 0, 0],
             [1, 0, 0, 0, 2, 0, 0, 0, 0],
@@ -21,9 +12,48 @@ class ML:
             [1, 2, 0, 0, 2, 0, 2, 1, 1],
             [1, 2, 1, 0, 2, 0, 2, 1, 1],
             [1, 2, 1, 0, 2, 2, 2, 1, 1],
+        ]
 
-        ])
-        y_train = np.array([0, 4, 8, 2, 7, 6, 2, 5, 3])
+y_base = [0, 4, 8, 2, 7, 6, 2, 5, 3]
+
+x_new = [[0, 0, 0, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 2, 0, 0, 0, 0], [1, 0, 0, 0, 2, 0, 0, 0, 1], [1, 2, 0, 0, 2, 0, 0, 0, 1], [1, 2, 0, 0, 2, 0, 0, 1, 1], [1, 2, 0, 0, 2, 0, 2, 1, 1], [1, 2, 1, 0, 2, 0, 2, 1, 1], [1, 2, 1, 0, 2, 2, 2, 1, 1], ['1', '2', '2', '0', '2', '1', '1', '2', '1'], ['1', '2', '2', '0', '2', '1', '1', '2', '1'], ['1', '2', '2', '0', '2', '1', '1', '2', '1'], ['1', '2', '2', '0', '2', '1', '1', '2', '1']]
+
+y_new = [0, 4, 8, 2, 7, 6, 2, 5, 3, 4, 2, 7, 1]
+
+class ML:
+    def __init__(self):
+        self.name = "ML Player"
+
+    @staticmethod
+    def make_move(board):
+        # Define the training data
+        X_train = np.array(x_base)
+        y_train = np.array(y_base)
+
+        # Create and train the decision tree classifier
+        classifier = DecisionTreeClassifier()
+        classifier.fit(X_train, y_train)
+
+        #predict the best integer given a list of 9 integers
+        integers = np.array(board).reshape(1, -1)  # Reshape input for prediction
+        prediction = classifier.predict(integers)
+
+        available_positions = [i for i, cell in enumerate(board) if cell == '0']
+        print("available positions are " + str(available_positions))
+        if prediction[0] in available_positions:
+            return prediction[0]
+        else:
+            return random.choice(available_positions)
+
+class ML_new:
+    def __init__(self):
+        self.name = "ML Player"
+
+    @staticmethod
+    def make_move(board):
+        # Define the training data
+        X_train = np.array(x_new)
+        y_train = np.array(y_new)
 
         # Create and train the decision tree classifier
         classifier = DecisionTreeClassifier()

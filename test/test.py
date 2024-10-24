@@ -31,8 +31,11 @@ class Game:
 
 def main():
     game_play = Game()
-    player1 = player.Random
+    
+# player -------------------------------------------------------------------------
+    player1 = player.ML_new
     player2 = player.ML
+    
     game = 0
     player1_win = 0
     player2_win = 0
@@ -68,7 +71,7 @@ def main():
     else:
         problem += 1
 
-    return game, player1_win, player2_win, draw, problem
+    return game, player1_win, player2_win, draw, problem, player1, player2
 
 if __name__ == "__main__":
 
@@ -78,18 +81,27 @@ if __name__ == "__main__":
     tdraw = 0
     tproblem = 0
 
-    for i in range(100):
 
-        game, player1_win, player2_win, draw, problem = main()
+# test repeat -------------------------------------------------------------------------
+    repeat = 1000
+    
+    for i in range(repeat):
+
+        game, player1_win, player2_win, draw, problem, player1, player2 = main()
 
         tgame += game
         tplayer1_win += player1_win
         tplayer2_win += player2_win
         tdraw += draw
         tproblem += problem
+        
+    if tplayer1_win + tplayer2_win + draw != tgame:
+        tproblem += 1
 
-    print(tgame)
-    print(tplayer1_win)
-    print(tplayer2_win)
-    print(tdraw)
-    print(problem)
+    print("game played -------- " + str(tgame))
+    print("player 1 ----------- " + str(player1))
+    print("player 2 ----------- " + str(player2))
+    print("player 1 win ------- " + str(tplayer1_win))
+    print("player 2 win ------- " + str(tplayer2_win))
+    print("draw --------------- " + str(tdraw))
+    print("error -------------- " + str(problem))
